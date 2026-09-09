@@ -1,0 +1,54 @@
+---
+import { linkWhatsApp, contato, resolvido } from '../content/site';
+import Icone from './Icone.astro';
+
+interface Props {
+  texto: string;
+  mensagem?: string;
+  nota?: string;
+  variante?: 'cheio' | 'vazado';
+  largo?: boolean;
+  centralizado?: boolean;
+}
+
+const {
+  texto,
+  mensagem = contato.mensagemPadrao,
+  nota,
+  variante = 'cheio',
+  largo = false,
+  centralizado = false,
+} = Astro.props;
+
+const tempo = resolvido(contato.tempoDeResposta);
+---
+
+<div class:list={['wa', centralizado && 'wa--centro']}>
+  <a
+    class:list={['botao', variante === 'vazado' && 'botao--vazado', largo && 'botao--largo']}
+    href={linkWhatsApp(mensagem)}
+    target="_blank"
+    rel="noopener"
+    data-cta="whatsapp"
+  >
+    <Icone nome="whatsapp" tamanho={20} />
+    {texto}
+  </a>
+  {(nota || tempo) && (
+    <p class="apoio wa__nota">
+      {nota}
+      {/* O tempo de resposta só aparece se a Rafaela confirmar que consegue cumprir. */}
+      {tempo && <> {tempo}</>}
+    </p>
+  )}
+</div>
+
+<style>
+  .wa { display: flex; flex-direction: column; gap: var(--s-3); align-items: flex-start; }
+  .wa--centro { align-items: center; text-align: center; }
+  .wa__nota { margin: 0; max-width: 42ch; }
+
+  /* O respiro entre glifo e texto é o `gap` do .botao; aqui só garantimos que
+     o svg não encolha quando o rótulo quebra em duas linhas. */
+  .botao :global(svg) { flex: 0 0 auto; }
+</style>

@@ -1,0 +1,83 @@
+---
+import { sobre, profissional, resolvido } from '../content/site';
+
+const foto = resolvido(profissional.foto);
+---
+
+<section class="secao secao--sobre" id="sobre">
+  <div class="container sobre">
+    <div class="sobre__retrato">
+      {foto ? (
+        <img src={foto} alt={`${profissional.nome}, psicóloga clínica`} width="620" height="775" />
+      ) : (
+        <div class="placeholder" role="img" aria-label="Foto da Rafaela — ainda não disponível">
+          <span>Foto pendente</span>
+        </div>
+      )}
+    </div>
+
+    <div class="sobre__texto">
+      <h2>{sobre.titulo}</h2>
+
+      {sobre.paragrafos.map((p) => (
+        <p class="sobre__paragrafo">{p}</p>
+      ))}
+
+      {/* Itálico = a voz dela. Regra do design system. Fecha a seção. */}
+      <blockquote class="citacao citacao--fim">
+        <p>{sobre.citacao}</p>
+      </blockquote>
+
+      <ul class="credenciais">
+        {sobre.credenciais.map((c) => (
+          <li class="cred">{c}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Respiro inteiro (não metade) nas duas fronteiras — pedido do Mateus, 09/09/2026.
+     Acima, o "Sobre" encosta na única faixa tingida da página e precisa de ar para
+     não ler como continuação da dobra; abaixo, a fronteira com o Reconhecimento é
+     papel contra papel, onde o Divisor sozinho não separa — o espaço é a outra
+     metade do trabalho dele. Mesma conta do .secao--linho. */
+  .secao--sobre { padding-block: var(--entre-secoes); }
+
+  .sobre { display: grid; gap: var(--s-10); align-items: start; }
+
+  .sobre__retrato img, .placeholder { width: 100%; border-radius: var(--raio-painel); }
+  .sobre__retrato img { object-fit: cover; aspect-ratio: 4 / 5; }
+  .placeholder {
+    aspect-ratio: 4 / 5;
+    display: grid;
+    place-items: center;
+    border: 1px dashed var(--tinta-fraca);
+    background:
+      linear-gradient(to top right, transparent calc(50% - .5px), var(--fio) calc(50% - .5px), var(--fio) calc(50% + .5px), transparent calc(50% + .5px)),
+      linear-gradient(to bottom right, transparent calc(50% - .5px), var(--fio) calc(50% - .5px), var(--fio) calc(50% + .5px), transparent calc(50% + .5px)),
+      var(--linho);
+  }
+  .placeholder span {
+    font-family: var(--sans); font-size: var(--t-cred); letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--tinta-fraca);
+    background: var(--papel); padding: 6px 12px;
+  }
+
+  .citacao { margin: 0; padding: 0 0 0 var(--s-5); border-left: 1px solid var(--ouro); }
+  .citacao p { font-style: italic; font-size: var(--t-abertura); line-height: var(--lh-abertura); }
+  .citacao--fim { margin-top: var(--s-8); }
+
+  .sobre__paragrafo { margin-top: var(--s-6); }
+  h2 + .sobre__paragrafo { margin-top: var(--titulo-corpo); }
+
+  .credenciais {
+    list-style: none; margin: var(--s-10) 0 0; padding: 0;
+    display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-6);
+  }
+
+  @media (min-width: 900px) {
+    .sobre { grid-template-columns: 0.72fr 1.28fr; gap: var(--s-16); }
+  }
+</style>

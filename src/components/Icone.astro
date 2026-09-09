@@ -1,0 +1,78 @@
+---
+/**
+ * Os cinco ícones da página, desenhados à mão. Não há biblioteca de ícones no
+ * projeto e não deve haver: cinco desenhos não pagam uma dependência.
+ *
+ * Regra de cor: o traço é `currentColor`, então o ícone herda o tema claro/escuro
+ * de quem o contém. NUNCA colorir de --ouro — a regra 3 do CLAUDE.md reserva o
+ * ouro para a marca, o botão de WhatsApp e o fio de "Como funciona".
+ *
+ * Os três ícones do reconhecimento desenham o MECANISMO, não o objeto: espiral
+ * para o pensamento que gira, ciclo interrompido para o padrão que se repete,
+ * dois círculos para o que existe entre duas pessoas. Cérebro está fora — viraria
+ * rótulo de neurociência, proibido pela regra 2.
+ */
+
+interface Props {
+  nome: 'espiral' | 'pessoas' | 'ciclo' | 'livro' | 'whatsapp';
+  tamanho?: number;
+  classe?: string;
+}
+
+const { nome, tamanho = 24, classe } = Astro.props;
+
+const desenhos: Record<Props['nome'], string> = {
+  /* Pensamento em espiral — o idioma é literalmente esse. */
+  espiral: `
+    <path d="M21 12 A9 9 0 0 0 3 12 A6.5 6.5 0 0 0 16 12 A4 4 0 0 0 8 12 A1.5 1.5 0 0 0 11 12" />
+  `,
+  /* Duas pessoas: o que importa é a área em que elas se sobrepõem. */
+  pessoas: `
+    <circle cx="8.6" cy="12" r="6" />
+    <circle cx="15.4" cy="12" r="6" />
+  `,
+  /* O ciclo que se repete — e a abertura por onde ele pode ser interrompido. */
+  ciclo: `
+    <path d="M15.9 5 A8 8 0 1 1 8.1 5" />
+    <path d="M5.1 5.1 L8.1 5 L6.5 7.5" />
+  `,
+  /* Livro aberto. */
+  livro: `
+    <path d="M12 6.8 C10.4 5.4 8 4.8 3.8 4.8 L3.8 17.2 C8 17.2 10.4 17.8 12 19.2" />
+    <path d="M12 6.8 C13.6 5.4 16 4.8 20.2 4.8 L20.2 17.2 C16 17.2 13.6 17.8 12 19.2" />
+    <path d="M12 6.8 L12 19.2" />
+  `,
+  /* Marca do WhatsApp na versão contornada, como na referência: o círculo é
+     traço (e combina com os outros quatro ícones), o fone é cheio para não
+     virar renda em 20px.
+
+     O fone é desenhado em viewBox cheio e depois reduzido pela metade e
+     recentrado — a 18/20px ele precisa de respiro contra o círculo, senão o
+     miolo fecha e o ícone vira mancha. Mexer no `scale` sem olhar o ícone
+     renderizado em 20px é como o desenho anterior quebrou. */
+  whatsapp: `
+    <circle cx="12" cy="12" r="8.75" />
+    <path
+      fill="currentColor"
+      stroke="none"
+      transform="translate(6 6) scale(0.5)"
+      d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+    />
+  `,
+};
+---
+
+<svg
+  class={classe}
+  width={tamanho}
+  height={tamanho}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+  set:html={desenhos[nome]}
+/>

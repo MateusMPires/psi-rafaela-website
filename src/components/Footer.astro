@@ -1,0 +1,100 @@
+---
+import { profissional, links, rodape, resolvido } from '../content/site';
+
+const google = resolvido(links.google);
+const cidade = resolvido(profissional.cidade);
+---
+
+<footer class="rodape">
+  <div class="container">
+    <div class="rodape__topo">
+      <div>
+        <a class="marca" href="#topo">
+          <span class="marca__sinal" aria-hidden="true"></span>
+          <span class="marca__nome">{profissional.nome}</span>
+        </a>
+        <p class="cred rodape__cred">
+          {profissional.titulo} · {profissional.crp}
+          {cidade && <> · {cidade}</>}
+        </p>
+        <p class="cred rodape__cred">{profissional.modalidade} · {profissional.publico}</p>
+      </div>
+
+      <nav class="rodape__links" aria-label="Links externos">
+        <a href={links.instagram} target="_blank" rel="noopener">
+          Instagram {links.instagramHandle}
+        </a>
+        {/* Apontar para o perfil do Google é permitido; reproduzir as avaliações
+            aqui não é — ver seção 9 do doc de visão. */}
+        {google && (
+          <a href={google} target="_blank" rel="noopener">Perfil no Google</a>
+        )}
+      </nav>
+    </div>
+
+    {/* Obrigatório pela seção 9 do doc de visão. */}
+    <aside class="emergencia">
+      <h2 class="emergencia__titulo">{rodape.emergencia.titulo}</h2>
+      <p class="emergencia__texto">{rodape.emergencia.texto}</p>
+    </aside>
+
+    <p class="cred rodape__direitos">{rodape.direitos}</p>
+  </div>
+</footer>
+
+<style>
+  .rodape { border-top: 1px solid var(--fio); padding-block: var(--s-16) var(--s-12); }
+
+  .rodape__topo { display: grid; gap: var(--s-8); }
+
+  .marca {
+    display: inline-flex; align-items: center; gap: 10px;
+    min-height: 44px;
+    text-decoration: none; color: var(--tinta);
+  }
+  .marca__sinal {
+    width: 30px; height: 25px; flex: none;
+    background: var(--ouro);
+    -webkit-mask: url('/marca.png') center / contain no-repeat;
+    mask: url('/marca.png') center / contain no-repeat;
+  }
+  .marca__nome { font-family: var(--disp); font-size: 21px; }
+
+  .rodape__cred { margin-top: var(--s-3); }
+
+  .rodape__links { display: flex; flex-direction: column; gap: var(--s-3); align-items: flex-start; }
+  .rodape__links a {
+    display: inline-flex; align-items: center; min-height: 44px;
+    font-family: var(--sans); font-size: var(--t-apoio);
+  }
+
+  .emergencia {
+    margin-top: var(--s-12);
+    padding: var(--s-5);
+    border: 1px solid var(--fio);
+    border-radius: var(--raio-painel);
+    max-width: var(--medida);
+  }
+  .emergencia__titulo {
+    font-family: var(--sans);
+    font-size: var(--t-apoio);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0;
+    color: var(--tinta);
+  }
+  .emergencia__texto {
+    margin-top: var(--s-2);
+    font-family: var(--sans);
+    font-size: var(--t-apoio);
+    line-height: var(--lh-apoio);
+    color: var(--tinta-fraca);
+  }
+
+  .rodape__direitos { margin-top: var(--s-12); }
+
+  @media (min-width: 700px) {
+    .rodape__topo { grid-template-columns: 1fr auto; align-items: start; }
+    .rodape__links { align-items: flex-end; }
+  }
+</style>

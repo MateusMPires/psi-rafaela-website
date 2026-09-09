@@ -1,0 +1,39 @@
+---
+/**
+ * Ilustração da dobra. Sem foto: DESVIA da base visual, que desenhou a dobra em
+ * volta de uma foto da Rafaela. Decisão do Mateus (09/09/2026): a foto continua
+ * pendente e migrou inteira para o "Sobre". Rever no artifact antes de mudar de
+ * novo. A foto NÃO deixou de ser pendência: ver docs/pendencias.md.
+ *
+ * ARTE: `src/assets/ilustracao-dobra.png`, enviada pelo Mateus (09/09/2026) com a
+ * instrução explícita de entrar SEM alteração — por isso o arquivo é usado como
+ * veio, sem recorte, sem recolorir e sem vetorizar. Substitui o SVG inline
+ * vetorizado que estava aqui antes.
+ *
+ * Duas consequências que vêm junto e são do arquivo, não do código:
+ *   1. A arte é creme claro (#E0CFBD) com brilho — desenhada para fundo escuro.
+ *      Sobre o linho do tema claro (#F0E7E0) ela quase desaparece.
+ *   2. 64% do PNG é margem transparente (arte visível: 546x540 num canvas de
+ *      1536x1024). No contêiner de 300px do mobile o desenho sai com ~107px.
+ * Recortar a margem vazia resolveria o item 2 sem tocar no desenho, e tingir por
+ * token resolveria o 1 — as duas coisas foram deixadas de fora de propósito.
+ *
+ * Passa por <Image> do astro:assets e não por <img> cru para o build gerar webp e
+ * carimbar width/height (o PNG tem 2,1 MB; sem isso a primeira tela levaria o
+ * arquivo inteiro e ainda daria layout shift).
+ *
+ * Decorativa: o <h1> ao lado já carrega o sentido, então alt vazio.
+ */
+import { Image } from 'astro:assets';
+import arte from '../assets/ilustracao-dobra.png';
+---
+
+<Image class="ilustracao" src={arte} alt="" loading="eager" />
+
+<style>
+  .ilustracao {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>

@@ -1,0 +1,168 @@
+@import './tokens.css';
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: var(--t-corpo);
+  line-height: var(--lh-corpo);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img, svg { max-width: 100%; }
+img { height: auto; display: block; }
+
+h1, h2, h3 {
+  font-family: var(--disp);
+  font-weight: 400;
+  letter-spacing: -0.008em;
+  margin: 0;
+  text-wrap: balance;
+}
+h1 { font-size: var(--t-dobra); line-height: var(--lh-dobra); letter-spacing: -0.018em; }
+h2 { font-size: var(--t-secao); line-height: var(--lh-secao); }
+h3 { font-size: var(--t-sub); line-height: var(--lh-sub); font-family: var(--serif); font-weight: 500; }
+
+p { margin: 0; max-width: var(--medida); text-wrap: pretty; }
+p + p { margin-top: var(--s-4); }
+
+a { color: var(--ouro-tinta); text-underline-offset: 4px; text-decoration-thickness: 1px; }
+
+/* Foco de teclado visível em ouro, 2px — regra do design system.
+   Usa --ouro-tinta e não --ouro: o ouro da marca dá 2,4:1 sobre papel e reprova
+   no mínimo de 3:1 para elemento de interface. --ouro-tinta é o mesmo ouro na
+   versão que o sistema já reserva para quando ele precisa ser legível. */
+:focus-visible {
+  outline: 2px solid var(--ouro-tinta);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* ---------- utilitários de layout ---------- */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--margem);
+}
+
+/* --entre-secoes é o respiro TOTAL entre duas seções, então cada uma paga metade. */
+.secao { padding-block: calc(var(--entre-secoes) / 2); }
+
+/* A faixa tingida precisa do respiro inteiro por dentro, senão o fundo aperta o texto. */
+.secao--linho { background: var(--linho); padding-block: var(--entre-secoes); }
+
+/* medida de leitura: nunca mais largo que 62ch, independente do container */
+.prosa { max-width: var(--medida); }
+
+/* As seções que não ganham segunda coluna no desktop são a coluna mobile
+   centrada em 660px — não texto encostado à esquerda de um container de 1120. */
+.coluna { max-width: 660px; margin-inline: auto; }
+
+.abertura {
+  font-size: var(--t-abertura);
+  line-height: var(--lh-abertura);
+  color: var(--tinta-fraca);
+}
+
+.apoio {
+  font-family: var(--sans);
+  font-size: var(--t-apoio);
+  line-height: var(--lh-apoio);
+  color: var(--tinta-fraca);
+}
+
+/* Caixa alta só aqui, no rodapé e na etiqueta "E-book".
+   A exceção do e-book é deliberada: ali a etiqueta não decora o título, ela
+   informa o FORMATO do que está sendo oferecido — a única coisa que a seção
+   não conseguia dizer de relance. Não abrir novas exceções sem esse teste. */
+.cred {
+  font-family: var(--sans);
+  font-size: var(--t-cred);
+  line-height: var(--lh-cred);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tinta-fraca);
+}
+
+.titulo-corpo { margin-top: var(--titulo-corpo); }
+
+/* ---------- ação ---------- */
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;            /* alvo de toque acima dos 44px exigidos */
+  padding: 14px 30px;
+  gap: var(--s-3);
+  border: 0;
+  border-radius: var(--raio-botao);
+  background: var(--ouro-acao);
+  color: var(--sobre-ouro);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: var(--t-ui);
+  line-height: 1.25;
+  letter-spacing: 0.004em;
+  /* Rótulo longo quebra em duas linhas no mobile; sem isto a segunda linha fica
+     encostada à esquerda enquanto o glifo permanece centralizado. */
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: filter 120ms ease;
+}
+.botao:hover { filter: brightness(1.06); }
+.botao:active { filter: brightness(0.96); }
+
+/* No botão cheio o anel de ouro cairia ouro-sobre-ouro; a tinta separa melhor. */
+.botao:focus-visible { outline-color: var(--tinta); }
+
+.botao--vazado {
+  background: transparent;
+  color: var(--tinta);
+  border: 1px solid var(--tinta-fraca);
+}
+.botao--vazado:hover { filter: none; border-color: var(--tinta); }
+
+.botao--largo { width: 100%; }
+@media (min-width: 560px) { .botao--largo { width: auto; } }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+/* O link de pular precisa ser visível quando o teclado chega nele —
+   caso contrário o foco some numa área invisível da página. */
+a.sr-only:focus-visible {
+  position: fixed; top: var(--s-3); left: var(--s-3); z-index: 100;
+  width: auto; height: auto; margin: 0; overflow: visible;
+  clip-path: none;
+  display: inline-flex; align-items: center; min-height: 44px;
+  padding: 0 var(--s-5);
+  background: var(--papel); color: var(--tinta);
+  border: 1px solid var(--tinta);
+  font-family: var(--sans); font-size: var(--t-ui); text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

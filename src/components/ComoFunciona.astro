@@ -1,0 +1,91 @@
+---
+import { comoFunciona } from '../content/site';
+---
+
+<section class="secao secao--linho" id="como-funciona">
+  <div class="container como">
+    <h2 class="prosa">{comoFunciona.titulo}</h2>
+    <p class="abertura titulo-corpo prosa">{comoFunciona.abertura}</p>
+
+    {/* Sequência de verdade: o fio dourado liga os passos e a numeração carrega
+        informação. Não é decoração — ver "Ilustração" na base visual.
+        No mobile o fio desce; no desktop ele deita e os três passos ficam lado a
+        lado, para a seção não virar uma coluna longa de rolagem. */}
+    <ol class="passos">
+      {comoFunciona.passos.map((passo) => (
+        <li class="passo">
+          <h3 class="passo__titulo">{passo.titulo}</h3>
+          <p class="passo__texto">{passo.texto}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  /* Coluna mobile centrada em 660px (regra do CLAUDE.md). No desktop a caixa
+     abre até 960px só para caber a grade de três; o texto corrido continua
+     preso à medida de leitura e alinhado à primeira coluna. */
+  .como { max-width: 660px; margin-inline: auto; }
+
+  .passos {
+    list-style: none;
+    margin: var(--s-10) 0 0;
+    padding: 0;
+    max-width: var(--medida);
+  }
+
+  /* O fio nasce em cada passo e morre no último ponto — em vez de sobrar
+     um rabo de linha depois do fim da sequência. */
+  .passo {
+    position: relative;
+    padding: 0 0 var(--s-8) var(--s-8);
+    border-left: 1px solid var(--ouro);
+  }
+  .passo:last-child { padding-bottom: 0; border-left-color: transparent; }
+
+  .passo::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 9px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ouro);
+  }
+
+  .passo__titulo { font-family: var(--disp); font-weight: 400; font-size: var(--t-sub); }
+  .passo__texto { margin-top: var(--s-3); }
+
+  @media (min-width: 900px) {
+    .como { max-width: 960px; }
+
+    .passos {
+      --fio-gap: var(--s-12);
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--fio-gap);
+      max-width: none;
+      margin-top: var(--s-16);
+      padding-top: var(--s-8);
+    }
+
+    /* Mesma regra do fio deitado: começa no primeiro ponto e termina no
+       último. A conta tira uma coluna da direita — com três colunas iguais,
+       o recuo de 1fr é exatamente a borda esquerda do terceiro passo. */
+    .passos::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: calc((100% - 2 * var(--fio-gap)) / 3);
+      height: 1px;
+      background: var(--ouro);
+    }
+
+    .passo { padding: 0; border-left: 0; }
+    .passo::before { left: -3px; top: calc(-1 * var(--s-8) - 3px); }
+  }
+</style>

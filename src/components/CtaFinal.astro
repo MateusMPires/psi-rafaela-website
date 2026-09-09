@@ -1,0 +1,26 @@
+---
+import { ctaFinal } from '../content/site';
+import WhatsAppButton from './WhatsAppButton.astro';
+---
+
+{/* Única seção centralizada da página: aqui não há o que ler em sequência,
+    só uma decisão a tomar. */}
+<section class="secao secao--linho final">
+  <div class="container coluna final__inner">
+    <h2>{ctaFinal.titulo}</h2>
+    <p class="abertura titulo-corpo">{ctaFinal.texto}</p>
+    <div class="final__acao">
+      <WhatsAppButton texto={ctaFinal.cta} centralizado largo />
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Sem border-top: a seção virou faixa tingida e a própria troca de cor separa.
+     Fio + troca de cor no mesmo ponto vira régua dupla.
+     Sem padding-block também: .secao--linho já paga o respiro inteiro dos dois lados. */
+  .final { padding-block: var(--entre-secoes); }
+  .final__inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .final__inner p { max-width: 46ch; }
+  .final__acao { margin-top: var(--s-10); width: 100%; display: flex; justify-content: center; }
+</style>

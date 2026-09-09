@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Reconhecimento from '../components/Reconhecimento.astro';
+import ComoFunciona from '../components/ComoFunciona.astro';
+import Sobre from '../components/Sobre.astro';
+import Divisor from '../components/Divisor.astro';
+import Ebook from '../components/Ebook.astro';
+import Faq from '../components/Faq.astro';
+import CtaFinal from '../components/CtaFinal.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base>
+  <Nav />
+  <main id="conteudo">
+    <Hero />
+    {/* "Quem é a Rafaela" logo depois da dobra (Mateus, 09/09/2026): quem chega
+        do Instagram decide primeiro pela pessoa e só depois pela demanda. */}
+    <Sobre />
+    {/* Sobre e Reconhecimento são as duas únicas seções papel seguidas sem nada
+        entre elas — o divisor faz o que a troca de fundo faz nas outras fronteiras. */}
+    <Divisor />
+    <Reconhecimento />
+    <ComoFunciona />
+    <Ebook />
+    <Faq />
+    <CtaFinal />
+  </main>
+  <Footer />
+</Base>

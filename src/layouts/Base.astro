@@ -1,0 +1,48 @@
+---
+import '../styles/global.css';
+import { meta, profissional, links } from '../content/site';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Psychologist',
+  name: profissional.nome,
+  jobTitle: profissional.titulo,
+  description: meta.descricao,
+  url: Astro.site?.href,
+  sameAs: [links.instagram],
+  knowsAbout: 'Terapia cognitivo-comportamental',
+  availableLanguage: 'pt-BR',
+  // Sem aggregateRating nem review: a seção 9 do doc de visão veda usar
+  // avaliação de paciente como material de divulgação.
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{meta.titulo}</title>
+    <meta name="description" content={meta.descricao} />
+    <link rel="canonical" href={Astro.site?.href} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={meta.titulo} />
+    <meta property="og:description" content={meta.descricao} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Spectral:ital,wght@0,300;0,500;1,300&family=Hanken+Grotesk:wght@400;600&display=swap"
+    />
+
+    <set:html value={`<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`} />
+  </head>
+  <body>
+    <a href="#conteudo" class="sr-only">Pular para o conteúdo</a>
+    <slot />
+  </body>
+</html>

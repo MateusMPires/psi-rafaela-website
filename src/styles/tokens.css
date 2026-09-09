@@ -1,0 +1,88 @@
+/* Tokens da base visual — https://claude.ai/code/artifact/d43a1a66-c9d1-4fba-89fb-d3c4bdc0f949
+   Os valores de cor e a escala tipográfica são fechados. Não alterar sem revisar o artifact. */
+
+:root {
+  color-scheme: light dark;
+
+  /* — cor, tema claro — */
+  --papel: #FCFBF9;        /* fundo padrão. branco morno, não creme */
+  --linho: #F0E7E0;        /* do logo. seções que mudam de assunto */
+  --tinta: #232A31;        /* texto. 14,0:1 sobre papel */
+  --tinta-fraca: #5A6672;  /* apoio, legendas. 5,7:1 */
+  --ouro: #C0A67C;         /* da marca, dessaturado. fio e detalhe. NUNCA texto — 2,4:1 */
+  --ouro-acao: #7E6E52;    /* MESMO ouro, escuro: preenchimento do botão. 4,8:1 com o rótulo claro */
+  --ouro-tinta: #7E6E52;   /* quando o ouro precisa ser texto ou link. 4,8:1 */
+  --fio: #E2DCD5;          /* divisórias */
+  --sobre-ouro: #FCFBF9;   /* rótulo por cima do ouro — claro nos dois temas */
+
+  /* — tipografia — */
+  --disp: "Gilda Display", "Iowan Old Style", Georgia, serif;
+  --serif: Spectral, "Iowan Old Style", Georgia, serif;
+  --sans: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --t-dobra: 34px;   --lh-dobra: 1.12;
+  --t-secao: 26px;   --lh-secao: 1.18;
+  --t-sub: 20px;     --lh-sub: 1.40;
+  --t-abertura: 20px; --lh-abertura: 1.62;
+  --t-corpo: 18px;   --lh-corpo: 1.68;
+  --t-ui: 16px;
+  --t-apoio: 14.5px; --lh-apoio: 1.55;
+  --t-cred: 12px;    --lh-cred: 1.45;
+
+  /* — espaço, escala de 4 — */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 20px; --s-6: 24px; --s-8: 32px; --s-10: 40px;
+  --s-12: 48px; --s-16: 64px; --s-18: 72px;
+
+  --margem: 20px;
+  --entre-secoes: 72px;
+  --titulo-corpo: 16px;
+  --medida: 62ch;
+  --container: 1120px;
+
+  /* Retângulo de cantos suaves. DESVIA da base visual, que fechou em 2px, e da
+     pílula que esteve aqui antes: decisão do Mateus em 09/09/2026, a partir da
+     referência que ele mandou (raio ≈ 28% da altura do botão). Rever no artifact
+     antes de mudar de novo. */
+  --raio-botao: 14px;
+  --raio-painel: 6px;
+}
+
+@media (min-width: 900px) {
+  :root {
+    --t-dobra: 52px;
+    --t-secao: 34px;
+    --t-sub: 21px;
+    --t-abertura: 21px;
+    --margem: 48px;
+    --entre-secoes: 128px;
+    --titulo-corpo: 20px;
+  }
+}
+
+/* — cor, tema escuro. receita própria, não inversão — */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --papel: #14171A;
+    --linho: #1E2328;
+    --tinta: #E9E6E1;
+    --tinta-fraca: #A8B0B8;
+    --ouro: #D0B78F;       /* clareado: o ouro puro suja sobre fundo escuro */
+    --ouro-acao: #7E6E52;  /* o fill do botão não inverte: o rótulo claro é o mesmo nos dois temas */
+    --ouro-tinta: #D0B78F; /* aqui o ouro pode ser texto */
+    --fio: #2A2F35;
+    --sobre-ouro: #FCFBF9;
+  }
+}
+
+:root[data-theme="dark"] {
+  --papel: #14171A;
+  --linho: #1E2328;
+  --tinta: #E9E6E1;
+  --tinta-fraca: #A8B0B8;
+  --ouro: #D0B78F;
+  --ouro-acao: #7E6E52;
+  --ouro-tinta: #D0B78F;
+  --fio: #2A2F35;
+  --sobre-ouro: #FCFBF9;
+}

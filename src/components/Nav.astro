@@ -1,0 +1,111 @@
+---
+import { profissional, hero, linkWhatsApp } from '../content/site';
+import Icone from './Icone.astro';
+---
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="marca" href="#topo">
+      <span class="marca__sinal" aria-hidden="true"></span>
+      <span class="marca__nome">{profissional.nome}</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Seções da página">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#duvidas">Dúvidas</a>
+    </nav>
+
+    <a class="botao nav__cta" href={linkWhatsApp()} target="_blank" rel="noopener" data-cta="whatsapp">
+      <Icone nome="whatsapp" tamanho={14} />
+      {hero.ctaCurto}
+    </a>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    /* Papel por decisão do Mateus (09/09/2026), depois de ver a alternativa linho:
+       o header fica branco mesmo por cima da dobra bege. O custo, aceito, é uma
+       faixa clara no topo antes do linho começar — o fio de --fio embaixo é o que
+       faz isso ler como barra de header e não como emenda. Se um dia incomodar,
+       a saída testada é tingir a barra de linho, não inventar um degradê. */
+    background: color-mix(in srgb, var(--papel) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--fio);
+  }
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+    min-height: 60px;
+  }
+
+  .marca {
+    display: inline-flex; align-items: center; gap: 10px;
+    min-height: 44px;              /* alvo de toque */
+    text-decoration: none; color: var(--tinta);
+  }
+  .marca__sinal {
+    width: 26px; height: 22px; flex: none;
+    background: var(--ouro);
+    -webkit-mask: url('/marca.png') center / contain no-repeat;
+    mask: url('/marca.png') center / contain no-repeat;
+  }
+  .marca__nome { font-family: var(--disp); font-size: 19px; letter-spacing: -0.005em; white-space: nowrap; }
+
+  .nav__links { display: none; gap: var(--s-6); }
+  .nav__links a {
+    display: inline-flex; align-items: center; min-height: 44px;
+    font-family: var(--sans); font-size: var(--t-apoio); color: var(--tinta-fraca);
+    text-decoration: none;
+  }
+  .nav__links a:hover { color: var(--tinta); text-decoration: underline; }
+
+  /* Pill 20% menor que o botão de corpo em todas as medidas (altura, padding,
+     rótulo, glifo e raio) — pedido do Mateus (09/09/2026). O alvo de toque NÃO
+     encolhe junto: 35px violaria o mínimo de 44px que é critério de aceite, então
+     o ::after devolve os 44px de área tocável por fora do desenho. */
+  .nav__cta {
+    position: relative;
+    min-height: 35px;
+    padding: 8px 16px;
+    gap: 6px;
+    font-size: 11.6px;
+    border-radius: 11px;
+  }
+  .nav__cta::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 44px;
+    transform: translateY(-50%);
+  }
+  .nav__cta :global(svg) { flex: 0 0 auto; }
+
+  @media (min-width: 900px) {
+    .nav__inner { min-height: 72px; }
+    .nav__links { display: flex; }
+    .marca__nome { font-size: 21px; }
+    .nav__cta { min-height: 38px; font-size: 12.8px; }
+  }
+
+  /* Muito estreito: o nome cede espaço para o botão, que é o objetivo da página.
+     O rótulo do botão nunca quebra em duas linhas — pílula de duas linhas no topo
+     fica com o dobro da altura e come a dobra. */
+  @media (max-width: 400px) {
+    .marca__nome { font-size: 16px; }
+    .nav__cta { padding: 8px 10px; gap: 6px; white-space: nowrap; }
+  }
+
+  /* Abaixo disto o rótulo inteiro não cabe ao lado do nome. Some o nome, não o
+     rótulo: o símbolo dourado continua marcando a página, e o botão é o objetivo.
+     O nome segue no "Sobre" e no rodapé. */
+  @media (max-width: 379px) {
+    .marca__nome { display: none; }
+  }
+</style>

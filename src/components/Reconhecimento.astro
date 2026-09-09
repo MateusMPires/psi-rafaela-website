@@ -1,0 +1,77 @@
+---
+import { reconhecimento } from '../content/site';
+import Icone from './Icone.astro';
+---
+
+<section class="secao secao--pos-divisor" id="reconhecimento">
+  <div class="container">
+    {/* O título carrega o argumento e a linha de apoio dá o critério: os dois
+        abrem a seção, e as três demandas viram o exemplo do que foi dito. */}
+    <h2 class="prosa">{reconhecimento.titulo}</h2>
+    <p class="abertura titulo-corpo criterio">{reconhecimento.subtitulo}</p>
+
+    {/* Sem caixa: um fio no topo de cada coluna separa as três frentes e para por
+        aí. Card com borda, canto e sombra transformaria o argumento principal da
+        página em três produtos numa prateleira. */}
+    <ul class="demandas">
+      {reconhecimento.demandas.map((d) => (
+        <li class="demanda">
+          <span class="demanda__marca">
+            <Icone nome={d.icone} tamanho={26} />
+          </span>
+          <h3 class="demanda__rotulo">{d.rotulo}</h3>
+          <p class="demanda__texto">{d.texto}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* O Divisor não tem espaço próprio: o vão dele é a soma dos paddings vizinhos.
+     Como o "Sobre" passou a pagar o respiro inteiro (09/09/2026), este topo casa
+     com ele — senão o fio encosta neste título e para de ler como pausa. */
+  .secao--pos-divisor { padding-top: var(--entre-secoes); }
+
+  /* No mobile a linha do critério quebra na medida normal. No desktop ela passa
+     de 62ch por três caracteres e sobraria uma viúva de duas palavras — daí a
+     medida própria, larga só o bastante para a frase caber em uma linha. */
+  .criterio { max-width: var(--medida); }
+
+  .demandas {
+    list-style: none;
+    margin: var(--s-12) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--s-10);
+  }
+
+  .demanda { border-top: 1px solid var(--fio); padding-top: var(--s-6); }
+
+  /* O disco de linho é o único fundo tingido da seção — dá ao ícone um chão sem
+     tingir o argumento inteiro (regra 4). O traço herda --tinta-fraca, nunca
+     --ouro: o ouro é da ação (regra 3). */
+  .demanda__marca {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--linho);
+    color: var(--tinta-fraca);
+  }
+
+  .demanda__rotulo {
+    margin-top: var(--s-5);
+    font-family: var(--disp);
+    font-weight: 400;
+    font-size: var(--t-sub);
+    line-height: var(--lh-sub);
+  }
+  .demanda__texto { margin-top: var(--s-3); color: var(--tinta-fraca); }
+
+  @media (min-width: 900px) {
+    .criterio { max-width: 76ch; }
+    .demandas { grid-template-columns: repeat(3, 1fr); gap: var(--s-10); }
+  }
+</style>

@@ -1,0 +1,199 @@
+---
+import { ebook } from '../content/site';
+import Icone from './Icone.astro';
+---
+
+<section class="secao" id="ebook">
+  <div class="container ebook">
+    {/* Capa simulada, não ícone: na proporção 3:4 de um livro, com as folhas da
+        marca. É o que faz a seção se ler como e-book de relance, inclusive no
+        mobile — onde o grafismo antigo simplesmente sumia. Decorativa: repete o
+        título que o h2 ao lado já anuncia, então fica fora da árvore acessível. */}
+    <div class="capa" aria-hidden="true">
+      <div class="capa__folhas"></div>
+      <p class="capa__titulo">{ebook.titulo}</p>
+      <p class="capa__autora">Rafaela Martins</p>
+    </div>
+
+    <div class="ebook__texto">
+      <p class="cred etiqueta">
+        <Icone nome="livro" tamanho={15} />
+        {ebook.etiqueta}
+      </p>
+      <h2>{ebook.titulo}</h2>
+      <p class="abertura titulo-corpo">{ebook.subtitulo}</p>
+
+      {ebook.paragrafos.map((p) => (
+        <p class="ebook__paragrafo">{p}</p>
+      ))}
+
+      <form class="form" id="form-ebook" novalidate>
+        <label class="sr-only" for="email-ebook">{ebook.campoLabel}</label>
+        <div class="form__linha">
+          <input
+            class="campo"
+            id="email-ebook"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            placeholder={ebook.campoPlaceholder}
+            aria-describedby="ebook-nota"
+          />
+          <button class="botao" type="submit">{ebook.botao}</button>
+        </div>
+        <p class="apoio" id="ebook-nota">{ebook.nota}</p>
+        <p class="mensagem" role="status" data-mensagem hidden></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ sucesso: ebook.sucesso, erro: ebook.erro }}>
+  // PENDENTE: trocar por um provedor real (Formspree, MailerLite) quando houver
+  // decisão sobre o e-book. Só esta função muda — o resto do formulário já está pronto.
+  async function enviar(email) {
+    console.info('[e-book] captura pendente de backend:', email);
+    return { ok: true };
+  }
+
+  const form = document.getElementById('form-ebook');
+  const campo = form.querySelector('input[name="email"]');
+  const aviso = form.querySelector('[data-mensagem]');
+  const botao = form.querySelector('button');
+
+  function mostrar(texto, tipo) {
+    aviso.textContent = texto;
+    aviso.dataset.tipo = tipo;
+    aviso.hidden = false;
+  }
+
+  form.addEventListener('submit', async (evento) => {
+    evento.preventDefault();
+    if (!campo.checkValidity() || !campo.value.includes('@')) {
+      campo.setAttribute('aria-invalid', 'true');
+      mostrar(erro, 'erro');
+      campo.focus();
+      return;
+    }
+    campo.removeAttribute('aria-invalid');
+    botao.disabled = true;
+    const resposta = await enviar(campo.value.trim());
+    botao.disabled = false;
+    if (resposta.ok) {
+      form.querySelector('.form__linha').hidden = true;
+      mostrar(sucesso, 'sucesso');
+    } else {
+      mostrar(erro, 'erro');
+    }
+  });
+</script>
+
+<style>
+  .ebook { display: grid; gap: var(--s-10); align-items: center; max-width: 980px; margin-inline: auto; }
+
+  .etiqueta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    margin-bottom: var(--s-4);
+  }
+
+  /* No mobile a capa entra pequena e alinhada à esquerda, como um objeto ao lado
+     do texto — não como banner ocupando a dobra inteira. */
+  .capa {
+    width: 132px;
+    aspect-ratio: 3 / 4;
+    display: grid;
+    align-content: end;
+    gap: var(--s-1);
+    position: relative;
+    padding: var(--s-4);
+    background: var(--linho);
+    border: 1px solid var(--fio);
+    border-radius: var(--raio-painel);
+    /* Lombada: o fio vertical é o que faz a forma virar livro e não cartão. */
+    box-shadow: inset 3px 0 0 rgb(0 0 0 / 0.06);
+    overflow: hidden;
+  }
+
+  /* As folhas da marca — o único ouro autorizado aqui, e é ouro de marca.
+     Ficam pequenas de propósito: marca.png tem 256px e veio de um JPEG, então o
+     alfa carrega ruído. Reduzido o desenho fica limpo; ampliado, granula.
+     Se um dia chegar o vetor (pendência 13), dá para crescer à vontade. */
+  .capa__folhas {
+    position: absolute;
+    top: 9%;
+    right: 9%;
+    width: 46%;
+    aspect-ratio: 256 / 214;
+    background: var(--ouro);
+    opacity: 0.45;
+    -webkit-mask: url('/marca.png') center / contain no-repeat;
+    mask: url('/marca.png') center / contain no-repeat;
+  }
+
+  .capa__titulo {
+    position: relative;
+    font-family: var(--disp);
+    font-size: 15px;
+    line-height: 1.2;
+    letter-spacing: -0.008em;
+  }
+  .capa__autora {
+    position: relative;
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--tinta-fraca);
+  }
+
+  .ebook__paragrafo { margin-top: var(--s-6); }
+
+  .form { margin-top: var(--s-10); max-width: var(--medida); }
+  .form__linha { display: grid; gap: var(--s-3); }
+
+  .campo {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid var(--tinta-fraca);
+    border-radius: var(--raio-botao);
+    background: var(--papel);
+    color: var(--tinta);
+    font-family: var(--sans);
+    font-size: var(--t-ui);
+  }
+  .campo::placeholder { color: var(--tinta-fraca); opacity: 0.75; }
+  .campo[aria-invalid='true'] { border-color: #9A5B4E; border-width: 2px; }
+
+  .form .apoio { margin-top: var(--s-3); }
+
+  .mensagem {
+    margin-top: var(--s-4);
+    font-family: var(--sans);
+    font-size: var(--t-apoio);
+    line-height: var(--lh-apoio);
+  }
+  .mensagem[data-tipo='sucesso'] { color: var(--tinta); }
+  .mensagem[data-tipo='erro'] { color: #9A5B4E; }
+
+  .botao[disabled] { opacity: 0.6; cursor: progress; }
+
+  @media (min-width: 700px) {
+    .form__linha { grid-template-columns: 1fr auto; }
+  }
+  @media (min-width: 900px) {
+    .ebook { grid-template-columns: 0.55fr 1.45fr; gap: var(--s-16); align-items: center; }
+    .capa {
+      width: 100%;
+      max-width: 250px;
+      padding: var(--s-6);
+      justify-self: center;
+      gap: var(--s-2);
+    }
+    .capa__titulo { font-size: 26px; }
+    .capa__autora { font-size: 11px; }
+  }
+</style>

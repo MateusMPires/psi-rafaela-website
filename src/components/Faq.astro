@@ -1,0 +1,59 @@
+---
+import { faq } from '../content/site';
+
+// Perguntas cuja resposta depende da Rafaela ficam fora do HTML até ela responder.
+const aguardando = faq.aguardando.filter((p) => p.ate_la !== null);
+---
+
+<section class="secao" id="duvidas">
+  <div class="container coluna">
+    <h2>{faq.titulo}</h2>
+
+    <div class="faq titulo-corpo">
+      {[...faq.itens, ...aguardando.map((p) => p.ate_la!)].map((item) => (
+        <details class="item">
+          <summary class="item__pergunta">
+            <span>{item.pergunta}</span>
+            <span class="mais" aria-hidden="true"></span>
+          </summary>
+          <p class="item__resposta">{item.resposta}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq { max-width: var(--medida); border-top: 1px solid var(--fio); }
+
+  .item { border-bottom: 1px solid var(--fio); }
+
+  .item__pergunta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+    min-height: 56px;
+    padding: var(--s-4) 0;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: var(--t-ui);
+    line-height: 1.4;
+    list-style: none;
+  }
+  .item__pergunta::-webkit-details-marker { display: none; }
+
+  /* o "+" do wireframe, desenhado em CSS */
+  .mais { position: relative; width: 12px; height: 12px; flex: none; }
+  .mais::before, .mais::after {
+    content: '';
+    position: absolute;
+    background: var(--ouro);
+    transition: transform 160ms ease, opacity 160ms ease;
+  }
+  .mais::before { left: 0; top: 5.5px; width: 12px; height: 1px; }
+  .mais::after { top: 0; left: 5.5px; width: 1px; height: 12px; }
+  .item[open] .mais::after { transform: scaleY(0); opacity: 0; }
+
+  .item__resposta { padding-bottom: var(--s-6); color: var(--tinta-fraca); }
+</style>

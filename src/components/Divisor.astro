@@ -1,0 +1,36 @@
+---
+/**
+ * Divisor entre duas seções de MESMO fundo, onde a troca de cor não faz o trabalho.
+ * Fio de 1px na largura da coluna de leitura, dissolvendo nas duas pontas — em vez
+ * de uma régua de ponta a ponta, que num layout sem caixas lê como tabela.
+ *
+ * Escolha do Mateus (09/09/2026) entre três variantes (fio dissolvido · marca
+ * centrada · traço curto). Não usa ouro: a regra 3 reserva o ouro para a marca, o
+ * botão e o fio do "Como funciona", e um quarto uso apaga o sinal.
+ *
+ * Decorativo de propósito: as <section> vizinhas já separam os assuntos para quem
+ * navega por leitor de tela, então isto não é <hr> e não entra na árvore de acessibilidade.
+ */
+---
+
+<div class="divisor" aria-hidden="true">
+  <div class="container">
+    <div class="divisor__fio coluna"></div>
+  </div>
+</div>
+
+<style>
+  .divisor__fio {
+    height: 1px;
+    /* As pontas somem antes da borda da coluna: o fio marca a pausa sem fechar
+       o texto numa caixa. As paradas em 18%/82% dão trecho sólido no meio —
+       um degradê de ponta a ponta some inteiro e não separa nada. */
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--fio) 18%,
+      var(--fio) 82%,
+      transparent
+    );
+  }
+</style>
