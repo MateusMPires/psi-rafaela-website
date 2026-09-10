@@ -24,6 +24,17 @@ além de um formulário de ~1,4 KB.
 > Sem Tailwind, sem React/Vue/Svelte, sem CMS. O conteúdo inteiro vive em um único arquivo de
 > dados, não espalhado pelos componentes — veja [Conteúdo e conformidade](#conteúdo-e-conformidade).
 
+## Capturas de tela
+
+<p align="center">
+  <img src="docs/screenshots/hero.png" alt="Dobra da página, com o título e o botão de WhatsApp visível sem rolagem" width="800" />
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/ebook.png" alt="Seção do e-book com captura de e-mail" width="392" />
+  <img src="docs/screenshots/cta-rodape.png" alt="CTA final e rodapé, com aviso de crise e emergência" width="392" />
+</p>
+
 ## Como rodar
 
 ```bash
