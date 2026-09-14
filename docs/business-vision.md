@@ -12,7 +12,7 @@
 
 ## 1. Resumo executivo
 
-Consultório de psicologia clínica **online**, individual, abordagem **Terapia Cognitivo-Comportamental (TCC)**,
+Consultório de psicologia clínica **online e presencial (Águas Claras, DF)**, individual, abordagem **Terapia Cognitivo-Comportamental (TCC)**,
 conduzido por **Rafaela Martins — CRP 01/26241**. Atende **adultos e adolescentes**.
 
 O negócio está em **fase de construção de base de pacientes**: existe capacidade ociosa na agenda.
@@ -56,11 +56,11 @@ clareza e método — e não por volume de anúncios.
 | Item | Situação |
 |---|---|
 | Profissional | Rafaela Martins |
-| Registro | **CRP 01/26241** — CRP-01 corresponde ao Distrito Federal 🔸 confirmar |
+| Registro | **CRP 01/26241** — CRP-01 corresponde ao Distrito Federal |
 | Formação | Psicóloga Clínica, graduada pelo **UniCEUB** em **fevereiro de 2023** |
 | Especialização | **Pós-graduanda em Terapia Cognitivo-Comportamental** — Instituto Cognitivo (em curso) |
 | Abordagem | TCC |
-| Modalidade | 100% online |
+| Modalidade | Online e presencial em **Águas Claras, Brasília (DF)** — atualizado em 14/09/2026 (a v2 dizia 100% online) |
 | Público | Adultos e adolescentes, atendimento individual |
 | Momento | Início de carreira clínica; agenda com espaço |
 | Instagram | [@psirafaelamartins](https://www.instagram.com/psirafaelamartins/) — conteúdo educativo sobre psicologia e neurociência. **Principal fonte de tráfego.** |
@@ -141,7 +141,7 @@ Regra editorial: **neurociência aparece no conteúdo e na voz, nunca no rótulo
 | Terapia estruturada, com metas e ferramentas práticas | Terapia de "vamos ver aonde isso leva" |
 | Ciência traduzida para a vida real | Divulgação de "neuro-qualquer-coisa" |
 | Linguagem direta, sem hermetismo | Linguagem de consultório clássico |
-| Online por escolha, não por adaptação | Consultório presencial com um Zoom pendurado |
+| Online como formato de primeira classe, ao lado do presencial | Consultório presencial com um Zoom pendurado |
 | Estética contemporânea e cuidada | Site de psicólogo com stock photo de mão segurando planta |
 | Honestos sobre o que a terapia não resolve | Vendedores de "supere sua ansiedade em 8 semanas" |
 

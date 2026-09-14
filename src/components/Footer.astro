@@ -2,7 +2,7 @@
 import { profissional, links, rodape, resolvido } from '../content/site';
 
 const google = resolvido(links.google);
-const cidade = resolvido(profissional.cidade);
+const { regiao, cidade, uf } = profissional.local;
 ---
 
 <footer class="rodape">
@@ -14,8 +14,8 @@ const cidade = resolvido(profissional.cidade);
           <span class="marca__nome">{profissional.nome}</span>
         </a>
         <p class="cred rodape__cred">
-          {profissional.titulo} · {profissional.crp}
-          {cidade && <> · {cidade}</>}
+          {profissional.titulo} · {profissional.crp} ·{' '}
+          <span class="rodape__local">{regiao}, {cidade} ({uf})</span>
         </p>
         <p class="cred rodape__cred">{profissional.modalidade} · {profissional.publico}</p>
       </div>
@@ -61,6 +61,8 @@ const cidade = resolvido(profissional.cidade);
   .marca__nome { font-family: var(--disp); font-size: 21px; }
 
   .rodape__cred { margin-top: var(--s-3); }
+  /* O nome do lugar quebra inteiro para a linha de baixo, nunca no meio. */
+  .rodape__local { white-space: nowrap; }
 
   .rodape__links { display: flex; flex-direction: column; gap: var(--s-3); align-items: flex-start; }
   .rodape__links a {

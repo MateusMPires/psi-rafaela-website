@@ -5,7 +5,7 @@
 <h1 align="center">rafa-psi-website</h1>
 
 <p align="center">
-  Landing page de captação para o consultório online da psicóloga Rafaela Martins.
+  Landing page de captação para o consultório (online e presencial, Águas Claras, DF) da psicóloga Rafaela Martins.
 </p>
 
 Página única, estática, construída com [Astro](https://astro.build). O objetivo é um só: levar

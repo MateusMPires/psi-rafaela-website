@@ -1,20 +1,22 @@
 ---
 /**
- * Os cinco ícones da página, desenhados à mão. Não há biblioteca de ícones no
- * projeto e não deve haver: cinco desenhos não pagam uma dependência.
+ * Os oito ícones da página, desenhados à mão. Não há biblioteca de ícones no
+ * projeto e não deve haver: oito desenhos não pagam uma dependência.
  *
  * Regra de cor: o traço é `currentColor`, então o ícone herda o tema claro/escuro
  * de quem o contém. NUNCA colorir de --ouro — a regra 3 do CLAUDE.md reserva o
  * ouro para a marca, o botão de WhatsApp e o fio de "Como funciona".
  *
- * Os três ícones do reconhecimento desenham o MECANISMO, não o objeto: espiral
+ * Os seis ícones do reconhecimento desenham o MECANISMO, não o objeto: espiral
  * para o pensamento que gira, ciclo interrompido para o padrão que se repete,
- * dois círculos para o que existe entre duas pessoas. Cérebro está fora — viraria
- * rótulo de neurociência, proibido pela regra 2.
+ * dois círculos para o que existe entre duas pessoas, degraus para a régua que
+ * sobe sempre, seta parada numa parede para o começo que não vem, contorno
+ * tracejado para o espaço de cada um. Cérebro está fora — viraria rótulo de
+ * neurociência, proibido pela regra 2.
  */
 
 interface Props {
-  nome: 'espiral' | 'pessoas' | 'ciclo' | 'livro' | 'whatsapp';
+  nome: 'espiral' | 'pessoas' | 'ciclo' | 'degraus' | 'barreira' | 'limite' | 'livro' | 'whatsapp';
   tamanho?: number;
   classe?: string;
 }
@@ -35,6 +37,22 @@ const desenhos: Record<Props['nome'], string> = {
   ciclo: `
     <path d="M15.9 5 A8 8 0 1 1 8.1 5" />
     <path d="M5.1 5.1 L8.1 5 L6.5 7.5" />
+  `,
+  /* Autocrítica: cada degrau alcançado revela o próximo. */
+  degraus: `
+    <path d="M3.5 19.5 H8.5 V14.5 H13.5 V9.5 H18.5 V4.5" />
+    <path d="M18.5 4.5 H20.5" />
+  `,
+  /* Procrastinação: a seta sabe para onde vai e para antes da parede. */
+  barreira: `
+    <path d="M18 4.5 V19.5" />
+    <path d="M3.5 12 H13" />
+    <path d="M10 9 L13 12 L10 15" />
+  `,
+  /* Limites: um núcleo e o contorno do espaço dele. */
+  limite: `
+    <circle cx="12" cy="12" r="8.5" stroke-dasharray="2.6 2.6" />
+    <circle cx="12" cy="12" r="3" />
   `,
   /* Livro aberto. */
   livro: `

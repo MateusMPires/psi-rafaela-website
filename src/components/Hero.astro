@@ -14,7 +14,7 @@ import IlustracaoDobra from './IlustracaoDobra.astro';
         <WhatsAppButton texto={hero.cta} largo />
       </div>
 
-      <p class="cred hero__cred">{profissional.crp} · {profissional.modalidade}</p>
+      <p class="cred hero__cred">{[profissional.crp, ...hero.etiquetas].join(' · ')}</p>
     </div>
 
     <div class="hero__ilustracao">

@@ -1,7 +1,8 @@
 # Landing page — Rafaela Martins, psicóloga clínica
 
 ## O que é
-Página única de captação para o consultório online da Rafaela Martins (CRP 01/26241). O objetivo
+Página única de captação para o consultório da Rafaela Martins (CRP 01/26241), online e presencial
+em Águas Claras, Brasília (DF). A copy é em primeira pessoa, na voz dela. O objetivo
 é um só: fazer quem chega **iniciar uma conversa no WhatsApp**. O tráfego vem majoritariamente do
 Instagram [@psirafaelamartins](https://www.instagram.com/psirafaelamartins/), quase sempre no
 celular — **mobile é o projeto principal, desktop é a adaptação.**

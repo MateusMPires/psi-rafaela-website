@@ -6,13 +6,13 @@ import Icone from './Icone.astro';
 <section class="secao secao--pos-divisor" id="reconhecimento">
   <div class="container">
     {/* O título carrega o argumento e a linha de apoio dá o critério: os dois
-        abrem a seção, e as três demandas viram o exemplo do que foi dito. */}
+        abrem a seção, e as seis demandas viram o exemplo do que foi dito. */}
     <h2 class="prosa">{reconhecimento.titulo}</h2>
     <p class="abertura titulo-corpo criterio">{reconhecimento.subtitulo}</p>
 
-    {/* Sem caixa: um fio no topo de cada coluna separa as três frentes e para por
+    {/* Sem caixa: um fio no topo de cada coluna separa as seis frentes e para por
         aí. Card com borda, canto e sombra transformaria o argumento principal da
-        página em três produtos numa prateleira. */}
+        página em seis produtos numa prateleira. No desktop: duas fileiras de três. */}
     <ul class="demandas">
       {reconhecimento.demandas.map((d) => (
         <li class="demanda">

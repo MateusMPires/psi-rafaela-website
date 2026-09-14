@@ -19,6 +19,9 @@ import { comoFunciona } from '../content/site';
         </li>
       ))}
     </ol>
+
+    {/* Para onde a terapia aponta — foco do trabalho, não desfecho prometido. */}
+    <p class="abertura prosa como__fecho">{comoFunciona.fecho}</p>
   </div>
 </section>
 
@@ -58,8 +61,13 @@ import { comoFunciona } from '../content/site';
   .passo__titulo { font-family: var(--disp); font-weight: 400; font-size: var(--t-sub); }
   .passo__texto { margin-top: var(--s-3); }
 
+  /* 64px no mobile / 96px no desktop (Mateus, 14/09/2026): com menos que isso o
+     fecho lia como texto do último passo, e não como conclusão da seção. */
+  .como__fecho { margin-top: var(--s-16); }
+
   @media (min-width: 900px) {
     .como { max-width: 960px; }
+    .como__fecho { margin-top: calc(var(--s-16) + var(--s-8)); }
 
     .passos {
       --fio-gap: var(--s-12);

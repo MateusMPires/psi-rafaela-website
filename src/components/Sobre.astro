@@ -1,19 +1,23 @@
 ---
-import { sobre, profissional, resolvido } from '../content/site';
-
-const foto = resolvido(profissional.foto);
+/**
+ * O arquivo da foto é 9:16 (retrato de celular); o quadro é 4:5. O recorte é
+ * feito no CSS (object-position), não no build, para o enquadramento poder ser
+ * ajustado sem regerar o asset. Abaixo da dobra: lazy.
+ */
+import { Image } from 'astro:assets';
+import { sobre, profissional } from '../content/site';
 ---
 
 <section class="secao secao--sobre" id="sobre">
   <div class="container sobre">
     <div class="sobre__retrato">
-      {foto ? (
-        <img src={foto} alt={`${profissional.nome}, psicóloga clínica`} width="620" height="775" />
-      ) : (
-        <div class="placeholder" role="img" aria-label="Foto da Rafaela — ainda não disponível">
-          <span>Foto pendente</span>
-        </div>
-      )}
+      <Image
+        src={profissional.foto}
+        alt={`${profissional.nome}, psicóloga clínica`}
+        widths={[400, 620, 900]}
+        sizes="(min-width: 900px) 360px, calc(100vw - 40px)"
+        loading="lazy"
+      />
     </div>
 
     <div class="sobre__texto">
@@ -47,22 +51,12 @@ const foto = resolvido(profissional.foto);
 
   .sobre { display: grid; gap: var(--s-10); align-items: start; }
 
-  .sobre__retrato img, .placeholder { width: 100%; border-radius: var(--raio-painel); }
-  .sobre__retrato img { object-fit: cover; aspect-ratio: 4 / 5; }
-  .placeholder {
-    aspect-ratio: 4 / 5;
-    display: grid;
-    place-items: center;
-    border: 1px dashed var(--tinta-fraca);
-    background:
-      linear-gradient(to top right, transparent calc(50% - .5px), var(--fio) calc(50% - .5px), var(--fio) calc(50% + .5px), transparent calc(50% + .5px)),
-      linear-gradient(to bottom right, transparent calc(50% - .5px), var(--fio) calc(50% - .5px), var(--fio) calc(50% + .5px), transparent calc(50% + .5px)),
-      var(--linho);
-  }
-  .placeholder span {
-    font-family: var(--sans); font-size: var(--t-cred); letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--tinta-fraca);
-    background: var(--papel); padding: 6px 12px;
+  /* height:auto anula o height do atributo (1600) para o aspect-ratio valer.
+     75% vertical: rosto no terço de cima, mãos ainda dentro do quadro. */
+  .sobre__retrato img {
+    display: block; width: 100%; height: auto; aspect-ratio: 4 / 5;
+    object-fit: cover; object-position: 50% 75%;
+    border-radius: var(--raio-painel);
   }
 
   .citacao { margin: 0; padding: 0 0 0 var(--s-5); border-left: 1px solid var(--ouro); }

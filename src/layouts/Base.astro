@@ -10,6 +10,13 @@ const jsonLd = {
   description: meta.descricao,
   url: Astro.site?.href,
   sameAs: [links.instagram],
+  // Só a região: o endereço do consultório não é publicado na página.
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: `${profissional.local.regiao}, ${profissional.local.cidade}`,
+    addressRegion: profissional.local.uf,
+    addressCountry: 'BR',
+  },
   knowsAbout: 'Terapia cognitivo-comportamental',
   availableLanguage: 'pt-BR',
   // Sem aggregateRating nem review: a seção 9 do doc de visão veda usar

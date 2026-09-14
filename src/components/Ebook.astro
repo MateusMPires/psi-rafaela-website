@@ -51,7 +51,7 @@ import Icone from './Icone.astro';
 
 <script is:inline define:vars={{ sucesso: ebook.sucesso, erro: ebook.erro }}>
   // PENDENTE: trocar por um provedor real (Formspree, MailerLite) quando houver
-  // decisão sobre o e-book. Só esta função muda — o resto do formulário já está pronto.
+  // decisão sobre o e-book. Só esta função muda; o resto do formulário já está pronto.
   async function enviar(email) {
     console.info('[e-book] captura pendente de backend:', email);
     return { ok: true };
