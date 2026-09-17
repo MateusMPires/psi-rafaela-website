@@ -1,0 +1,9 @@
+// Deploy na Cloudflare: Worker só com assets estáticos, sem script e sem adapter.
+// Build: `npm run build` · Deploy: `npx wrangler deploy` (Workers Builds faz os dois a cada push na main).
+{
+  "name": "psirafaelamartins",
+  "compatibility_date": "2026-09-16",
+  "assets": {
+    "directory": "./dist"
+  }
+}

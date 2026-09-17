@@ -93,9 +93,9 @@ herda a cor do tema e fica nítida no tamanho em que é usada, mas veio de bitma
 identidade tem o original.
 → `public/marca.png`.
 
-**14. Domínio**
-`astro.config.mjs` está com `rafaelamartins.com.br` de placeholder. Afeta a URL canônica e o
-JSON-LD.
+**14. Domínio** — *resolvida*
+`psirafaelamartins.com.br`, já em `astro.config.mjs` (URL canônica e JSON-LD). Deploy na
+Cloudflare (Workers com assets estáticos), configurado em `wrangler.jsonc`.
 
 ---
 
