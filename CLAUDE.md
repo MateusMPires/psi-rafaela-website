@@ -56,17 +56,18 @@ A direção visual está fechada e vem da **[base visual](https://claude.ai/code
 alteram sem revisar o artifact: Gilda Display nos títulos, Spectral 300 no corpo (18px/1,68),
 Hanken Grotesk na interface; papel `#FCFBF9`, linho `#F0E7E0`, ardósia `#232A31`, ouro `#C0A67C`.
 O ouro tem duas faces: `--ouro` é marca e fio; `--ouro-acao` (`#7E6E52`) é o preenchimento do
-botão, e o rótulo por cima dele é claro (`--sobre-ouro`, `#FCFBF9`) nos dois temas.
-Tema escuro é receita própria, não inversão — o ouro clareia para `#D0B78F`, mas o fill do
-botão não inverte.
+botão, e o rótulo por cima dele é claro (`--sobre-ouro`, `#FCFBF9`).
+**Só tema claro** (decisão de 16/09/2026): `color-scheme: only light` em `tokens.css` e na
+`<meta>` de `Base.astro`, o que também bloqueia o escurecimento forçado do navegador. Não
+reintroduzir tema escuro sem pedido explícito; a receita antiga está no histórico do git.
 
 No desktop, as seções que não têm segunda coluna são a coluna mobile **centrada em 660px**, não
 texto encostado à esquerda do container.
 
 ## Validação antes de dizer que está pronto
 1. `npm run build` limpo.
-2. Screenshot em **390px e 1440px × claro e escuro** — os quatro. Regressão de tema é o erro mais
-   comum aqui.
+2. Screenshot em **390px e 1440px**, também com o sistema em modo escuro (emulado no
+   Playwright): a página tem que continuar clara.
 3. Percorrer os guard-rails da regra 2 no HTML de `dist/`.
 4. Com JS desligado a página tem que continuar legível e o FAQ tem que continuar abrindo
    (é `<details>` nativo, de propósito).

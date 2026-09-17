@@ -57,7 +57,7 @@ src/
 │   └── site.ts          # Todo o texto e todos os fatos da página
 ├── components/           # Uma seção da página por componente (Astro)
 ├── layouts/
-│   └── Base.astro        # <head>, fontes, tema claro/escuro
+│   └── Base.astro        # <head>, fontes, tema (só claro)
 ├── pages/
 │   └── index.astro       # Composição da página, seção por seção
 └── styles/
@@ -91,8 +91,8 @@ profissional, sem preço ou apelo promocional, sem depoimento ou caso clínico. 
 
 A direção visual está fechada e documentada em
 [`src/styles/tokens.css`](src/styles/tokens.css): Gilda Display nos títulos, Spectral no corpo,
-Hanken Grotesk na interface, com paleta em papel/linho/ardósia/ouro. Tema escuro é receita própria,
-não inversão automática de cores.
+Hanken Grotesk na interface, com paleta em papel/linho/ardósia/ouro. A página é só
+no tema claro, inclusive quando o sistema do visitante está em modo escuro.
 
 > [!WARNING]
 > Os valores de `tokens.css` não devem mudar sem revisar o artifact de referência linkado no topo
@@ -104,8 +104,8 @@ não inversão automática de cores.
 Antes de considerar qualquer mudança pronta:
 
 1. `npm run build` sem erros.
-2. Screenshot em 390px e 1440px, claro e escuro (quatro combinações) — regressão de tema é o erro
-   mais comum aqui.
+2. Screenshot em 390px e 1440px, também com o sistema em modo escuro: a página tem que continuar
+   clara.
 3. Conferir os guard-rails éticos no HTML gerado em `dist/`.
 4. Com JavaScript desligado, a página continua legível e o FAQ continua abrindo (é `<details>`
    nativo, de propósito).

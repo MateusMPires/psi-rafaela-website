@@ -2,7 +2,10 @@
    Os valores de cor e a escala tipográfica são fechados. Não alterar sem revisar o artifact. */
 
 :root {
-  color-scheme: light dark;
+  /* Só tema claro, decisão do Mateus em 16/09/2026. `only` também impede o escurecimento
+     forçado do navegador (Chrome Android, navegadores in-app). A receita do tema escuro
+     está no histórico do git, antes desse commit. */
+  color-scheme: only light;
 
   /* — cor, tema claro — */
   --papel: #FCFBF9;        /* fundo padrão. branco morno, não creme */
@@ -58,31 +61,4 @@
     --entre-secoes: 128px;
     --titulo-corpo: 20px;
   }
-}
-
-/* — cor, tema escuro. receita própria, não inversão — */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --papel: #14171A;
-    --linho: #1E2328;
-    --tinta: #E9E6E1;
-    --tinta-fraca: #A8B0B8;
-    --ouro: #D0B78F;       /* clareado: o ouro puro suja sobre fundo escuro */
-    --ouro-acao: #7E6E52;  /* o fill do botão não inverte: o rótulo claro é o mesmo nos dois temas */
-    --ouro-tinta: #D0B78F; /* aqui o ouro pode ser texto */
-    --fio: #2A2F35;
-    --sobre-ouro: #FCFBF9;
-  }
-}
-
-:root[data-theme="dark"] {
-  --papel: #14171A;
-  --linho: #1E2328;
-  --tinta: #E9E6E1;
-  --tinta-fraca: #A8B0B8;
-  --ouro: #D0B78F;
-  --ouro-acao: #7E6E52;
-  --ouro-tinta: #D0B78F;
-  --fio: #2A2F35;
-  --sobre-ouro: #FCFBF9;
 }
