@@ -73,6 +73,12 @@ section[id] { scroll-margin-top: 76px; }
 /* A faixa tingida precisa do respiro inteiro por dentro, senão o fundo aperta o texto. */
 .secao--linho { background: var(--linho); padding-block: var(--entre-secoes); }
 
+/* O Divisor não tem espaço próprio: o vão dele é a soma dos paddings vizinhos.
+   Quem encosta nele paga o respiro inteiro daquele lado, senão o fio cola no
+   texto e para de ler como pausa. */
+.secao--pre-divisor { padding-bottom: var(--entre-secoes); }
+.secao--pos-divisor { padding-top: var(--entre-secoes); }
+
 /* medida de leitura: nunca mais largo que 62ch, independente do container */
 .prosa { max-width: var(--medida); }
 
