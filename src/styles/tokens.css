@@ -26,8 +26,10 @@
   /* Escala MOBILE: DESVIA da base visual, que desenhou 34/26/20/20/18 também para
      o celular. Decisão do Mateus em 22/09/2026: naquela escala a página lia como
      desktop encolhido e passava de nove telas. O desktop (bloco de 900px abaixo)
-     continua com os valores do artifact. Rever no artifact antes de mudar de novo. */
-  --t-dobra: 30px;   --lh-dobra: 1.12;
+     continua com os valores do artifact. Rever no artifact antes de mudar de novo.
+     Entrelinha da dobra 1,24 (e não 1,12) no mobile: pedido do mesmo dia, mais ar
+     entre as três linhas do título estreito. */
+  --t-dobra: 30px;   --lh-dobra: 1.24;
   --t-secao: 24px;   --lh-secao: 1.18;
   --t-sub: 18px;     --lh-sub: 1.40;
   --t-abertura: 18px; --lh-abertura: 1.58;
@@ -66,7 +68,7 @@
 
 @media (min-width: 900px) {
   :root {
-    --t-dobra: 52px;
+    --t-dobra: 52px;    --lh-dobra: 1.12;
     --t-secao: 34px;
     --t-sub: 21px;
     --t-abertura: 21px; --lh-abertura: 1.62;
