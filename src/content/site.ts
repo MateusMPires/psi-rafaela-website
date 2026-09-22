@@ -325,8 +325,13 @@ export const ebook = {
     'Dizer não sem culpa não é traço de personalidade. É habilidade, e habilidade se treina. ' +
       'No e-book, explico por que o cérebro reage com medo ou culpa diante de um conflito e ' +
       'trago técnicas de TCC para praticar.',
-    'Disponível em breve. Deixe seu e-mail e eu te aviso assim que ele sair.',
   ],
+  /** Selo de status no fim do texto (Mateus, 22/09/2026). Informa, não apressa: sem data. */
+  status: 'Disponível em breve',
+  /** Sem backend de captura, o formulário (e o único JS da página) fica fora do HTML.
+   *  Ligar é trocar para true e implementar `enviar` em Ebook.astro. Ver pendência 11. */
+  captura: false,
+  chamadaCaptura: 'Deixe seu e-mail e eu te aviso assim que ele sair.',
   campoLabel: 'Seu e-mail',
   campoPlaceholder: 'voce@email.com',
   botao: 'Quero o e-book',

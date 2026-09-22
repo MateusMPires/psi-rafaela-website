@@ -6,6 +6,7 @@ import Reconhecimento from '../components/Reconhecimento.astro';
 import ComoFunciona from '../components/ComoFunciona.astro';
 import Sobre from '../components/Sobre.astro';
 import Divisor from '../components/Divisor.astro';
+import Ebook from '../components/Ebook.astro';
 import Faq from '../components/Faq.astro';
 import CtaFinal from '../components/CtaFinal.astro';
 import Footer from '../components/Footer.astro';
@@ -18,13 +19,16 @@ import Footer from '../components/Footer.astro';
     {/* "Quem é a Rafaela" logo depois da dobra (Mateus, 09/09/2026): quem chega
         do Instagram decide primeiro pela pessoa e só depois pela demanda. */}
     <Sobre />
-    {/* Sobre e Reconhecimento são as duas únicas seções papel seguidas sem nada
-        entre elas — o divisor faz o que a troca de fundo faz nas outras fronteiras. */}
+    {/* Sobre e Reconhecimento são papel seguidas sem nada entre elas: o divisor faz
+        o que a troca de fundo faz nas outras fronteiras. */}
     <Divisor />
     <Reconhecimento />
     <ComoFunciona />
-    {/* E-book fora do ar até existir backend de captura (Mateus, 21/09/2026).
-        Ebook.astro e a copy em site.ts seguem prontos: voltar é esta linha e o import. */}
+    {/* E-book na página sem o campo de e-mail até existir backend de captura
+        (Mateus, 22/09/2026). Ligar a captura é `ebook.captura` em site.ts. */}
+    <Ebook />
+    {/* Mesmo caso: E-book e Dúvidas também são papel seguidas (Mateus, 22/09/2026). */}
+    <Divisor />
     <Faq />
     <CtaFinal />
   </main>

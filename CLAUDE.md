@@ -12,7 +12,7 @@ Astro (estático) + CSS puro com tokens. Sem Tailwind, sem framework de UI, sem 
 O movimento é CSS puro (`animation-timeline: view()` para o que revela ao rolar). O único JS é
 uma melhoria progressiva no FAQ (~0,4 KB inline, `Faq.astro`) que segura o `<details>` aberto
 enquanto a gaveta fecha, porque o Safari esconde o conteúdo na hora; sem JS o FAQ funciona igual,
-só fecha sem animar. O e-book está fora da página até ter backend de captura (21/09/2026).
+só fecha sem animar. O e-book está na página sem o campo de e-mail até ter backend de captura (22/09/2026, `ebook.captura` em `site.ts`).
 npm — o lockfile é `package-lock.json`.
 
 ```

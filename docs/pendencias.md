@@ -73,11 +73,11 @@ dentro do site não é (seção 9 do documento).
 ## Decisões de negócio
 
 **11. E-book: data de lançamento, se é gratuito, e se tem arte de capa**
-**Fora da página desde 21/09/2026** (Mateus): enquanto não houver backend, `<Ebook />` não é
-renderizado em `src/pages/index.astro`. Componente e copy seguem prontos; voltar é recolocar a linha.
-A seção existe e o formulário funciona na interface — valida o e-mail, mostra erro e sucesso.
+**Na página sem o campo de e-mail desde 22/09/2026** (Mateus): capa, título e texto aparecem;
+o formulário e o script dele só são renderizados com `ebook.captura: true` em `src/content/site.ts`.
+O formulário já funciona na interface: valida o e-mail, mostra erro e sucesso.
 O que falta é o backend: hoje o envio cai numa função stub que só registra no console.
-Quando houver decisão, trocar **uma função** (`enviar`, em `src/components/Ebook.astro`) por
+Quando houver decisão, ligar `ebook.captura` e trocar **uma função** (`enviar`, em `src/components/Ebook.astro`) por
 Formspree, MailerLite ou similar. Sugiro um ESP de verdade, porque o documento pede nutrição por
 e-mail, não só coleta.
 No lugar da capa real a seção mostra uma **capa simulada**: retângulo 3:4 em linho, com as folhas

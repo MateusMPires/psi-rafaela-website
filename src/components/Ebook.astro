@@ -3,7 +3,7 @@ import { ebook } from '../content/site';
 import Icone from './Icone.astro';
 ---
 
-<section class="secao" id="ebook">
+<section class="secao secao--pre-divisor" id="ebook">
   <div class="container ebook">
     {/* Capa simulada, não ícone: na proporção 3:4 de um livro, com as folhas da
         marca. É o que faz a seção se ler como e-book de relance, inclusive no
@@ -27,6 +27,11 @@ import Icone from './Icone.astro';
         <p class="ebook__paragrafo">{p}</p>
       ))}
 
+      <p class="selo">{ebook.status}</p>
+
+      {/* Formulário só entra com backend de captura (ebook.captura, site.ts). */}
+      {ebook.captura && (<>
+      <p class="ebook__paragrafo">{ebook.chamadaCaptura}</p>
       <form class="form" id="form-ebook" novalidate>
         <label class="sr-only" for="email-ebook">{ebook.campoLabel}</label>
         <div class="form__linha">
@@ -45,10 +50,12 @@ import Icone from './Icone.astro';
         <p class="apoio" id="ebook-nota">{ebook.nota}</p>
         <p class="mensagem" role="status" data-mensagem hidden></p>
       </form>
+      </>)}
     </div>
   </div>
 </section>
 
+{ebook.captura && (
 <script is:inline define:vars={{ sucesso: ebook.sucesso, erro: ebook.erro }}>
   // PENDENTE: trocar por um provedor real (Formspree, MailerLite) quando houver
   // decisão sobre o e-book. Só esta função muda; o resto do formulário já está pronto.
@@ -88,6 +95,7 @@ import Icone from './Icone.astro';
     }
   });
 </script>
+)}
 
 <style>
   .ebook { display: grid; gap: var(--s-10); align-items: center; max-width: 980px; margin-inline: auto; }
@@ -150,6 +158,31 @@ import Icone from './Icone.astro';
   }
 
   .ebook__paragrafo { margin-top: var(--s-6); }
+
+  /* Status, não botão: contorno de --fio e fundo papel, sem ouro (regra 3) e sem
+     movimento (regra 5). O ponto é --tinta pelo mesmo motivo. */
+  .selo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    margin-top: var(--s-6);
+    padding: 6px 14px;
+    border: 1px solid var(--fio);
+    border-radius: 999px;
+    background: var(--papel);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--tinta);
+  }
+  .selo::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
 
   .form { margin-top: var(--s-10); max-width: var(--medida); }
   .form__linha { display: grid; gap: var(--s-3); }
