@@ -124,7 +124,7 @@ export const hero = {
    * a pedido do Mateus (09/09/2026): o botão agora fica sozinho, e a promessa
    * de passo pequeno passou a viver só no texto que antecede o clique.
    */
-  cta: 'Agendar minha consulta',
+  cta: 'Agendar minha sessão',
   /**
    * O que acompanha o CRP embaixo do botão (Mateus, 14/09/2026). O CRP em si
    * NÃO sai daqui: é o único CRP da dobra, e a regra 2 do CLAUDE.md o exige.
@@ -132,7 +132,7 @@ export const hero = {
    */
   etiquetas: ['TCC', 'Adultos e adolescentes'],
   /** O nav não comporta a forma longa. A referência faz o mesmo corte. */
-  ctaCurto: 'Agendar consulta',
+  ctaCurto: 'Agendar sessão',
 } as const;
 
 /* ------------------------------------------------------------------ */
@@ -411,7 +411,7 @@ export const ctaFinal = {
   titulo: 'O primeiro passo é uma mensagem.',
   texto:
     'Você não precisa ter certeza de que quer fazer terapia. Pode me escrever só para tirar uma dúvida.',
-  cta: 'Agendar minha consulta',
+  cta: 'Agendar minha sessão',
 } as const;
 
 /* ------------------------------------------------------------------ */
@@ -428,7 +428,7 @@ export const rodape = {
     revisarComRafaela: true,
     titulo: 'Em caso de crise ou emergência',
     texto:
-      'Este site e o meu atendimento, online ou presencial, não são serviços de emergência. ' +
+      'Este site e as minhas sessões, online ou presenciais, não são serviços de emergência. ' +
       'Se você está em risco imediato ou pensando em se machucar, ligue 188 (CVV, 24 horas, ' +
       'gratuito) ou procure a emergência mais próxima. Havendo risco à vida, ligue 192 (SAMU).',
   },
