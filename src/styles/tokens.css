@@ -54,8 +54,9 @@
      existe aqui de propósito: começa devagar justo quando o olho está olhando. */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);      /* entrar, responder ao toque */
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);  /* algo que já está na tela se mover */
+  --ease-gaveta: cubic-bezier(0.32, 0.72, 0, 1);   /* gaveta do iOS (Ionic): abrir e fechar o FAQ */
   --dur-toque: 160ms;    /* feedback de pressão */
-  --dur-ui: 240ms;       /* abrir/fechar no FAQ */
+  --dur-ui: 340ms;       /* abrir/fechar no FAQ */
   --dur-entrada: 800ms;  /* entrada da dobra, uma vez por visita */
 }
 

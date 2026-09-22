@@ -9,8 +9,10 @@ celular — **mobile é o projeto principal, desktop é a adaptação.**
 
 ## Stack
 Astro (estático) + CSS puro com tokens. Sem Tailwind, sem framework de UI, sem runtime no cliente.
-Nenhum JS no cliente: o movimento é CSS puro (`animation-timeline: view()` para o que revela ao
-rolar). O e-book, única peça com JS, está fora da página até ter backend de captura (21/09/2026).
+O movimento é CSS puro (`animation-timeline: view()` para o que revela ao rolar). O único JS é
+uma melhoria progressiva no FAQ (~0,4 KB inline, `Faq.astro`) que segura o `<details>` aberto
+enquanto a gaveta fecha, porque o Safari esconde o conteúdo na hora; sem JS o FAQ funciona igual,
+só fecha sem animar. O e-book está fora da página até ter backend de captura (21/09/2026).
 npm — o lockfile é `package-lock.json`.
 
 ```

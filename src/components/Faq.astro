@@ -17,7 +17,11 @@ const aguardando = faq.aguardando.filter((p) => p.ate_la !== null);
             <span>{item.pergunta}</span>
             <span class="mais" aria-hidden="true"></span>
           </summary>
-          <p class="item__resposta">{item.resposta}</p>
+          {/* O wrapper é a linha do grid que colapsa (ver ::details-content); o
+              padding fica no <p>, dentro dele, para a linha poder ir a zero. */}
+          <div class="item__corpo">
+            <p class="item__resposta">{item.resposta}</p>
+          </div>
         </details>
       ))}
     </div>
@@ -46,9 +50,10 @@ const aguardando = faq.aguardando.filter((p) => p.ate_la !== null);
 
   /* o "+" do wireframe, desenhado em CSS */
   .mais { position: relative; width: 12px; height: 12px; flex: none; }
-  /* Abrir: o "+" gira um quarto de volta e a haste vertical deita sobre a
-     horizontal, virando "−". É o mesmo sinal mudando de estado, não um ícone
-     trocado por outro. */
+  /* Abrir: o "+" dá meia volta enquanto a haste vertical recolhe, virando
+     "−". Meia volta e não um quarto: com 90° a haste horizontal girava para a
+     vertical e o sinal aberto lia "|". É o mesmo sinal mudando de estado, não
+     um ícone trocado por outro. */
   .mais { transition: transform var(--dur-ui) var(--ease-out); }
   .mais::before, .mais::after {
     content: '';
@@ -60,41 +65,114 @@ const aguardando = faq.aguardando.filter((p) => p.ate_la !== null);
     top: 0; left: 5.5px; width: 1px; height: 12px;
     transition: transform var(--dur-ui) var(--ease-out);
   }
-  .item[open] .mais { transform: rotate(90deg); }
+  .item[open] .mais { transform: rotate(180deg); }
   .item[open] .mais::after { transform: scaleY(0.08); }
 
+  .item__corpo { min-height: 0; overflow: hidden; }
   .item__resposta { padding-bottom: var(--s-6); color: var(--tinta-fraca); }
 
-  /* A altura acompanha a abertura onde o navegador sabe animar até `auto`
-     (Chromium; ::details-content também no Safari 18.4+). Nos outros o
-     <details> abre seco como antes, e a resposta ainda assenta com o fade. */
-  @supports (interpolate-size: allow-keywords) {
-    .item { interpolate-size: allow-keywords; }
+  /* A gaveta: o conteúdo do <details> é uma linha de grid que vai de 0fr a 1fr.
+     Diferente de animar `height` até `auto` (interpolate-size, que o Safari não
+     tem e que fazia a resposta saltar no iPhone), fr interpola em todo navegador
+     com ::details-content (Chromium, Safari 18.4+). Ao fechar, quem segura a
+     resposta renderizada até a gaveta recolher é o script no fim do arquivo
+     (o content-visibility discreto só funciona no Chromium).
+     Curva de gaveta do iOS: sem o estalo do ease-out forte num movimento de
+     altura. Sem suporte, o <details> abre seco, como sempre abriu. */
+  @supports selector(::details-content) {
     .item::details-content {
-      height: 0;
-      overflow: clip;
+      display: grid;
+      grid-template-rows: 0fr;
       transition:
-        height var(--dur-ui) var(--ease-out),
+        grid-template-rows var(--dur-ui) var(--ease-gaveta),
         content-visibility var(--dur-ui) allow-discrete;
     }
-    .item[open]::details-content { height: auto; }
+    .item[open]::details-content { grid-template-rows: 1fr; }
   }
 
-  /* A resposta entra alguns pixels acima e desce ao lugar: vem da pergunta. */
-  .item[open] .item__resposta { animation: resposta 260ms var(--ease-out) both; }
-  @keyframes resposta {
-    from { opacity: 0; transform: translateY(-4px); }
+  /* A resposta desce da pergunta e sai de foco ao fechar. Transição, não
+     keyframe: abrir e fechar rápido retoma do ponto em que está, sem pular.
+     Abrindo, espera a gaveta ganhar um pouco de altura (60ms); fechando, some
+     rápido (180ms) para não ficar texto solto numa gaveta que já encolheu. */
+  .item__resposta {
+    opacity: 0;
+    translate: 0 -8px;
+    filter: blur(2px);
+    transition:
+      opacity 180ms var(--ease-out),
+      translate 180ms var(--ease-out),
+      filter 180ms var(--ease-out);
   }
+  .item[open] .item__resposta {
+    opacity: 1;
+    translate: 0 0;
+    filter: blur(0);
+    transition-duration: var(--dur-ui);
+    transition-delay: 60ms;
+  }
+  @starting-style {
+    .item[open] .item__resposta { opacity: 0; translate: 0 -8px; filter: blur(2px); }
+  }
+
+  /* Fechando (script abaixo): o <details> ainda está [open], mas já veste o
+     estado fechado, para a gaveta e a resposta recolherem antes do conteúdo
+     sumir. Especificidade maior que [open] de propósito. */
+  @supports selector(::details-content) {
+    .item[open][data-fechando]::details-content { grid-template-rows: 0fr; }
+  }
+  .item[open][data-fechando] .item__resposta {
+    opacity: 0;
+    translate: 0 -8px;
+    filter: blur(2px);
+    transition-duration: 180ms;
+    transition-delay: 0ms;
+  }
+  .item[open][data-fechando] .mais { transform: none; }
+  .item[open][data-fechando] .mais::after { transform: none; }
 
   @media (hover: hover) and (pointer: fine) {
     .item__pergunta { transition: color 150ms ease; }
     .item__pergunta:hover { color: var(--ouro-tinta); }
   }
 
+  /* Reduzido: a gaveta abre seca, o texto só esmaece. */
   @media (prefers-reduced-motion: reduce) {
     .mais, .mais::after { transition: none; }
     .item::details-content { transition: none; }
-    .item[open] .item__resposta { animation-name: resposta-fade; animation-duration: 200ms; }
+    .item__resposta,
+    .item[open] .item__resposta,
+    .item[open][data-fechando] .item__resposta { translate: none; filter: none; transition-property: opacity; }
   }
-  @keyframes resposta-fade { from { opacity: 0; } }
 </style>
+
+<script>
+  /* Melhoria progressiva, só para FECHAR. Abrir é CSS puro. Ao fechar, o Safari
+     esconde o conteúdo do <details> no mesmo instante e ignora a transição
+     discreta de content-visibility, então a gaveta sumia seca no iPhone. Aqui o
+     `open` é segurado enquanto a gaveta recolhe (data-fechando) e só sai no fim.
+     Sem JS o FAQ continua abrindo e fechando nativo: só não anima o fechamento.
+     Clicar de novo no meio do fechamento cancela e a gaveta reabre de onde
+     estava (as transições retomam, não recomeçam). */
+  const reduzido = matchMedia('(prefers-reduced-motion: reduce)');
+
+  for (const item of document.querySelectorAll<HTMLDetailsElement>('#duvidas .item')) {
+    let timer: number | undefined;
+    item.querySelector('summary')!.addEventListener('click', (e) => {
+      if (!item.open || reduzido.matches) return;
+      e.preventDefault();
+      if (item.dataset.fechando !== undefined) {
+        clearTimeout(timer);
+        delete item.dataset.fechando;
+        return;
+      }
+      item.dataset.fechando = '';
+      // O minificador reescreve `340ms` como `.34s`: respeitar a unidade.
+      const dur = getComputedStyle(item).getPropertyValue('--dur-ui').trim();
+      const ms = (dur.endsWith('ms') ? parseFloat(dur) : parseFloat(dur) * 1000) || 340;
+      timer = window.setTimeout(() => {
+        item.open = false;
+        delete item.dataset.fechando;
+      }, ms);
+    });
+  }
+</script>
