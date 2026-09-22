@@ -15,7 +15,7 @@ import { sobre, profissional } from '../content/site';
         src={profissional.foto}
         alt={`${profissional.nome}, psicóloga clínica`}
         widths={[400, 620, 900]}
-        sizes="(min-width: 900px) 360px, calc(100vw - 40px)"
+        sizes="(min-width: 900px) 360px, 220px"
         loading="lazy"
       />
     </div>
@@ -49,7 +49,7 @@ import { sobre, profissional } from '../content/site';
      metade do trabalho dele. Mesma conta do .secao--linho. */
   .secao--sobre { padding-block: var(--entre-secoes); }
 
-  .sobre { display: grid; gap: var(--s-10); align-items: start; }
+  .sobre { display: grid; gap: var(--s-8); align-items: start; }
 
   /* height:auto anula o height do atributo (1600) para o aspect-ratio valer.
      75% vertical: rosto no terço de cima, mãos ainda dentro do quadro. */
@@ -57,6 +57,9 @@ import { sobre, profissional } from '../content/site';
      baixo para cima, assentando de um zoom de 8%: é a pessoa aparecendo, não um
      bloco de layout deslizando. */
   .sobre__retrato { border-radius: var(--raio-painel); overflow: hidden; }
+  /* No mobile o retrato é um objeto centrado de 220px, não a largura da tela:
+     em 4:5 largura cheia ele sozinho ocupava meia tela (Mateus, 22/09/2026). */
+  .sobre__retrato { width: 100%; max-width: 220px; margin-inline: auto; }
   /* Timeline NOMEADA no quadro, e não view() na foto: o overflow:hidden faz do
      quadro um contêiner de rolagem, e o view() da foto passaria a medir a foto
      dentro do quadro (onde ela está sempre visível) em vez de na tela. */
@@ -92,17 +95,20 @@ import { sobre, profissional } from '../content/site';
 
   .citacao { margin: 0; padding: 0 0 0 var(--s-5); border-left: 1px solid var(--ouro); }
   .citacao p { font-style: italic; font-size: var(--t-abertura); line-height: var(--lh-abertura); }
-  .citacao--fim { margin-top: var(--s-8); }
+  .citacao--fim { margin-top: var(--s-6); }
 
   .sobre__paragrafo { margin-top: var(--s-6); }
   h2 + .sobre__paragrafo { margin-top: var(--titulo-corpo); }
 
   .credenciais {
-    list-style: none; margin: var(--s-10) 0 0; padding: 0;
+    list-style: none; margin: var(--s-8) 0 0; padding: 0;
     display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-6);
   }
 
   @media (min-width: 900px) {
     .sobre { grid-template-columns: 0.72fr 1.28fr; gap: var(--s-16); }
+    .sobre__retrato { max-width: none; margin-inline: 0; }
+    .citacao--fim { margin-top: var(--s-8); }
+    .credenciais { margin-top: var(--s-10); }
   }
 </style>

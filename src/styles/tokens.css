@@ -23,11 +23,15 @@
   --serif: Spectral, "Iowan Old Style", Georgia, serif;
   --sans: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
-  --t-dobra: 34px;   --lh-dobra: 1.12;
-  --t-secao: 26px;   --lh-secao: 1.18;
-  --t-sub: 20px;     --lh-sub: 1.40;
-  --t-abertura: 20px; --lh-abertura: 1.62;
-  --t-corpo: 18px;   --lh-corpo: 1.68;
+  /* Escala MOBILE: DESVIA da base visual, que desenhou 34/26/20/20/18 também para
+     o celular. Decisão do Mateus em 22/09/2026: naquela escala a página lia como
+     desktop encolhido e passava de nove telas. O desktop (bloco de 900px abaixo)
+     continua com os valores do artifact. Rever no artifact antes de mudar de novo. */
+  --t-dobra: 30px;   --lh-dobra: 1.12;
+  --t-secao: 24px;   --lh-secao: 1.18;
+  --t-sub: 18px;     --lh-sub: 1.40;
+  --t-abertura: 18px; --lh-abertura: 1.58;
+  --t-corpo: 17px;   --lh-corpo: 1.62;
   --t-ui: 16px;
   --t-apoio: 14.5px; --lh-apoio: 1.55;
   --t-cred: 12px;    --lh-cred: 1.45;
@@ -37,8 +41,8 @@
   --s-5: 20px; --s-6: 24px; --s-8: 32px; --s-10: 40px;
   --s-12: 48px; --s-16: 64px; --s-18: 72px;
 
-  --margem: 20px;
-  --entre-secoes: 72px;
+  --margem: 24px;
+  --entre-secoes: 64px;
   --titulo-corpo: 16px;
   --medida: 62ch;
   --container: 1120px;
@@ -65,7 +69,8 @@
     --t-dobra: 52px;
     --t-secao: 34px;
     --t-sub: 21px;
-    --t-abertura: 21px;
+    --t-abertura: 21px; --lh-abertura: 1.62;
+    --t-corpo: 18px;    --lh-corpo: 1.68;
     --margem: 48px;
     --entre-secoes: 128px;
     --titulo-corpo: 20px;

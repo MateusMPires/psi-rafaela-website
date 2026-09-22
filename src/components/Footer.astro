@@ -43,7 +43,7 @@ const { regiao, cidade, uf } = profissional.local;
 </footer>
 
 <style>
-  .rodape { border-top: 1px solid var(--fio); padding-block: var(--s-16) var(--s-12); }
+  .rodape { border-top: 1px solid var(--fio); padding-block: var(--s-12) var(--s-10); }
 
   .rodape__topo { display: grid; gap: var(--s-8); }
 
@@ -71,7 +71,7 @@ const { regiao, cidade, uf } = profissional.local;
   }
 
   .emergencia {
-    margin-top: var(--s-12);
+    margin-top: var(--s-8);
     padding: var(--s-5);
     border: 1px solid var(--fio);
     border-radius: var(--raio-painel);
@@ -93,10 +93,14 @@ const { regiao, cidade, uf } = profissional.local;
     color: var(--tinta-fraca);
   }
 
-  .rodape__direitos { margin-top: var(--s-12); }
+  .rodape__direitos { margin-top: var(--s-8); }
 
   @media (min-width: 700px) {
     .rodape__topo { grid-template-columns: 1fr auto; align-items: start; }
     .rodape__links { align-items: flex-end; }
+  }
+  @media (min-width: 900px) {
+    .rodape { padding-block: var(--s-16) var(--s-12); }
+    .emergencia, .rodape__direitos { margin-top: var(--s-12); }
   }
 </style>

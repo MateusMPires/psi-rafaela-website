@@ -64,7 +64,7 @@ movimento em `tokens.css`; o contrato das camadas (`.surge`, `.palavras`, `.reve
 ## Design
 A direção visual está fechada e vem da **[base visual](https://claude.ai/code/artifact/d43a1a66-c9d1-4fba-89fb-d3c4bdc0f949)**
 (wireframe das 9 seções + sistema completo). Os valores estão em `src/styles/tokens.css` e não se
-alteram sem revisar o artifact: Gilda Display nos títulos, Spectral 300 no corpo (18px/1,68),
+alteram sem revisar o artifact: Gilda Display nos títulos, Spectral 300 no corpo (18px/1,68 no desktop; 17px/1,62 no mobile, escala mobile reduzida em 22/09/2026),
 Hanken Grotesk na interface; papel `#FCFBF9`, linho `#F0E7E0`, ardósia `#232A31`, ouro `#C0A67C`.
 O ouro tem duas faces: `--ouro` é marca e fio; `--ouro-acao` (`#7E6E52`) é o preenchimento do
 botão, e o rótulo por cima dele é claro (`--sobre-ouro`, `#FCFBF9`).

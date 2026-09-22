@@ -98,7 +98,7 @@ import Icone from './Icone.astro';
 )}
 
 <style>
-  .ebook { display: grid; gap: var(--s-10); align-items: center; max-width: 980px; margin-inline: auto; }
+  .ebook { display: grid; gap: var(--s-8); align-items: center; max-width: 980px; margin-inline: auto; }
 
   .etiqueta {
     display: inline-flex;
@@ -110,13 +110,13 @@ import Icone from './Icone.astro';
   /* No mobile a capa entra pequena e alinhada à esquerda, como um objeto ao lado
      do texto — não como banner ocupando a dobra inteira. */
   .capa {
-    width: 132px;
+    width: 104px;
     aspect-ratio: 3 / 4;
     display: grid;
     align-content: end;
     gap: var(--s-1);
     position: relative;
-    padding: var(--s-4);
+    padding: var(--s-3);
     background: var(--linho);
     border: 1px solid var(--fio);
     border-radius: var(--raio-painel);
@@ -144,14 +144,14 @@ import Icone from './Icone.astro';
   .capa__titulo {
     position: relative;
     font-family: var(--disp);
-    font-size: 15px;
+    font-size: 13px;
     line-height: 1.2;
     letter-spacing: -0.008em;
   }
   .capa__autora {
     position: relative;
     font-family: var(--sans);
-    font-size: 10px;
+    font-size: 9px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--tinta-fraca);
