@@ -9,7 +9,9 @@ celular — **mobile é o projeto principal, desktop é a adaptação.**
 
 ## Stack
 Astro (estático) + CSS puro com tokens. Sem Tailwind, sem framework de UI, sem runtime no cliente.
-O único JS é o formulário do e-book (~1,4 KB inline). npm — o lockfile é `package-lock.json`.
+Nenhum JS no cliente: o movimento é CSS puro (`animation-timeline: view()` para o que revela ao
+rolar). O e-book, única peça com JS, está fora da página até ter backend de captura (21/09/2026).
+npm — o lockfile é `package-lock.json`.
 
 ```
 npm run dev       # desenvolvimento
@@ -47,8 +49,15 @@ Papel = o argumento principal. Linho = desvio de assunto (responsáveis, painel 
 conversa). Se tudo for tingido, o sinal morre.
 
 **5. Sem pressão.**
-Nada de contador, selo de urgência, escassez ou animação de entrada por seção. A página converte
-por clareza e redução de medo — que é a estratégia certa e também o que a ética permite.
+Nada de contador, selo de urgência, escassez, nem movimento que chame para o clique (pulso, brilho,
+tremor, loop). A página converte por clareza e redução de medo — que é a estratégia certa e também
+o que a ética permite.
+Movimento expressivo é permitido (Mateus, 22/09/2026, depois de achar a rodada de 21/09 "seca"):
+título da dobra se escrevendo por palavra, revelações ao rolar, desenhos presos à rolagem (fio,
+ícones, cortina no retrato, halo nos passos) e microinterações de toque. O que continua vetado é o
+que pressiona o clique: pulso, brilho, tremor, loop, contador. Curvas e durações vêm dos tokens de
+movimento em `tokens.css`; o contrato das camadas (`.surge`, `.palavras`, `.revela`) está em
+`global.css`. Todo movimento tem variante para `prefers-reduced-motion` (fade sim, deslocamento não).
 
 ## Design
 A direção visual está fechada e vem da **[base visual](https://claude.ai/code/artifact/d43a1a66-c9d1-4fba-89fb-d3c4bdc0f949)**
@@ -72,6 +81,7 @@ texto encostado à esquerda do container.
 4. Com JS desligado a página tem que continuar legível e o FAQ tem que continuar abrindo
    (é `<details>` nativo, de propósito).
 5. Foco de teclado visível e alvo de toque ≥ 44px.
+6. Com `prefers-reduced-motion: reduce` emulado, nada se desloca e tudo continua visível.
 
 `playwright` está como devDependency só para isso.
 

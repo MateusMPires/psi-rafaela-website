@@ -21,18 +21,18 @@ import { sobre, profissional } from '../content/site';
     </div>
 
     <div class="sobre__texto">
-      <h2>{sobre.titulo}</h2>
+      <h2 class="revela">{sobre.titulo}</h2>
 
       {sobre.paragrafos.map((p) => (
-        <p class="sobre__paragrafo">{p}</p>
+        <p class="sobre__paragrafo revela">{p}</p>
       ))}
 
       {/* Itálico = a voz dela. Regra do design system. Fecha a seção. */}
-      <blockquote class="citacao citacao--fim">
+      <blockquote class="citacao citacao--fim revela">
         <p>{sobre.citacao}</p>
       </blockquote>
 
-      <ul class="credenciais">
+      <ul class="credenciais revela">
         {sobre.credenciais.map((c) => (
           <li class="cred">{c}</li>
         ))}
@@ -53,6 +53,37 @@ import { sobre, profissional } from '../content/site';
 
   /* height:auto anula o height do atributo (1600) para o aspect-ratio valer.
      75% vertical: rosto no terço de cima, mãos ainda dentro do quadro. */
+  /* O quadro fica parado e a foto se abre dentro dele como uma cortina, de
+     baixo para cima, assentando de um zoom de 8%: é a pessoa aparecendo, não um
+     bloco de layout deslizando. */
+  .sobre__retrato { border-radius: var(--raio-painel); overflow: hidden; }
+  /* Timeline NOMEADA no quadro, e não view() na foto: o overflow:hidden faz do
+     quadro um contêiner de rolagem, e o view() da foto passaria a medir a foto
+     dentro do quadro (onde ela está sempre visível) em vez de na tela. */
+  @supports (animation-timeline: view()) {
+    .sobre__retrato { view-timeline: --retrato block; }
+    .sobre__retrato img {
+      animation-name: retrato;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+      animation-duration: auto;
+      animation-timeline: --retrato;
+      animation-range: entry 0% cover 40%;
+    }
+  }
+  @keyframes retrato {
+    from {
+      clip-path: inset(100% 0 0 0);
+      scale: 1.08;
+      animation-timing-function: var(--ease-out);
+    }
+    /* Explícito: de inset() para `none` o navegador não interpola, só salta. */
+    to { clip-path: inset(0 0 0 0); scale: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sobre__retrato img { animation-name: surge-fade !important; }
+  }
+
   .sobre__retrato img {
     display: block; width: 100%; height: auto; aspect-ratio: 4 / 5;
     object-fit: cover; object-position: 50% 75%;

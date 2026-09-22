@@ -7,15 +7,15 @@ import Icone from './Icone.astro';
   <div class="container">
     {/* O título carrega o argumento e a linha de apoio dá o critério: os dois
         abrem a seção, e as seis demandas viram o exemplo do que foi dito. */}
-    <h2 class="prosa">{reconhecimento.titulo}</h2>
-    <p class="abertura titulo-corpo criterio">{reconhecimento.subtitulo}</p>
+    <h2 class="prosa revela">{reconhecimento.titulo}</h2>
+    <p class="abertura titulo-corpo criterio revela">{reconhecimento.subtitulo}</p>
 
     {/* Sem caixa: um fio no topo de cada coluna separa as seis frentes e para por
         aí. Card com borda, canto e sombra transformaria o argumento principal da
         página em seis produtos numa prateleira. No desktop: duas fileiras de três. */}
     <ul class="demandas">
       {reconhecimento.demandas.map((d) => (
-        <li class="demanda">
+        <li class="demanda revela">
           <span class="demanda__marca">
             <Icone nome={d.icone} tamanho={26} />
           </span>
@@ -61,6 +61,42 @@ import Icone from './Icone.astro';
     color: var(--tinta-fraca);
   }
 
+  /* Os ícones desenham um mecanismo (ver Icone.astro), então eles se desenham
+     de verdade: o disco assenta e o traço corre, preso à rolagem da demanda.
+     Só os traços com pathLength entram; o tracejado do `limite` só esmaece.
+     --desvio atrasa as colunas 2 e 3 no desktop, igual ao texto. */
+  .demanda { --desvio: 0%; }
+  @supports (animation-timeline: view()) {
+    .demanda { view-timeline: --demanda block; }
+    .demanda__marca,
+    .demanda__marca :global([pathLength]) {
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+      animation-duration: auto;
+      animation-timeline: --demanda;
+    }
+    .demanda__marca {
+      animation-name: disco;
+      animation-range: entry var(--desvio) entry calc(50% + var(--desvio));
+    }
+    .demanda__marca :global([pathLength]) {
+      stroke-dasharray: 1;
+      animation-name: traco;
+      animation-range: entry calc(30% + var(--desvio)) cover calc(45% + var(--desvio));
+    }
+  }
+  @keyframes disco {
+    from { opacity: 0; scale: 0.8; animation-timing-function: var(--ease-out); }
+  }
+  @keyframes traco {
+    from { stroke-dashoffset: 1; animation-timing-function: var(--ease-out); }
+    to { stroke-dashoffset: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .demanda__marca { animation-name: surge-fade !important; }
+    .demanda__marca :global([pathLength]) { animation: none !important; }
+  }
+
   .demanda__rotulo {
     margin-top: var(--s-5);
     font-family: var(--disp);
@@ -73,5 +109,12 @@ import Icone from './Icone.astro';
   @media (min-width: 900px) {
     .criterio { max-width: 76ch; }
     .demandas { grid-template-columns: repeat(3, 1fr); gap: var(--s-10); }
+
+    /* Três colunas cruzam a borda da tela no mesmo instante; o atraso vem da
+       rolagem (cada coluna começa um pouco depois), não de um relógio. */
+    @supports (animation-timeline: view()) {
+      .demanda:nth-child(3n + 2) { --desvio: 10%; animation-range: entry 15% cover 30%; }
+      .demanda:nth-child(3n + 3) { --desvio: 20%; animation-range: entry 30% cover 35%; }
+    }
   }
 </style>

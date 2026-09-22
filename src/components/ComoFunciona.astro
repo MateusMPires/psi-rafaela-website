@@ -4,8 +4,8 @@ import { comoFunciona } from '../content/site';
 
 <section class="secao secao--linho" id="como-funciona">
   <div class="container como">
-    <h2 class="prosa">{comoFunciona.titulo}</h2>
-    <p class="abertura titulo-corpo prosa">{comoFunciona.abertura}</p>
+    <h2 class="prosa revela">{comoFunciona.titulo}</h2>
+    <p class="abertura titulo-corpo prosa revela">{comoFunciona.abertura}</p>
 
     {/* Sequência de verdade: o fio dourado liga os passos e a numeração carrega
         informação. Não é decoração — ver "Ilustração" na base visual.
@@ -14,14 +14,15 @@ import { comoFunciona } from '../content/site';
     <ol class="passos">
       {comoFunciona.passos.map((passo) => (
         <li class="passo">
-          <h3 class="passo__titulo">{passo.titulo}</h3>
-          <p class="passo__texto">{passo.texto}</p>
+          <span class="passo__halo" aria-hidden="true"></span>
+          <h3 class="passo__titulo revela">{passo.titulo}</h3>
+          <p class="passo__texto revela">{passo.texto}</p>
         </li>
       ))}
     </ol>
 
     {/* Para onde a terapia aponta — foco do trabalho, não desfecho prometido. */}
-    <p class="abertura prosa como__fecho">{comoFunciona.fecho}</p>
+    <p class="abertura prosa como__fecho revela">{comoFunciona.fecho}</p>
   </div>
 </section>
 
@@ -42,20 +43,94 @@ import { comoFunciona } from '../content/site';
      um rabo de linha depois do fim da sequência. */
   .passo {
     position: relative;
-    padding: 0 0 var(--s-8) var(--s-8);
-    border-left: 1px solid var(--ouro);
+    /* +1px = a antiga border-left, que virou o ::after abaixo para poder ser
+       desenhada; o texto não se mexe. */
+    padding: 0 0 var(--s-8) calc(var(--s-8) + 1px);
+    view-timeline: --passo block;
   }
-  .passo:last-child { padding-bottom: 0; border-left-color: transparent; }
+  .passo:last-child { padding-bottom: 0; }
+
+  /* O fio, agora pseudo-elemento: se desenha de cima para baixo conforme o
+     passo sobe na tela. É explicação, não enfeite: mostra que é sequência. */
+  .passo::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--ouro);
+    transform-origin: top;
+  }
+  .passo:last-child::after { content: none; }
 
   .passo::before {
     content: '';
     position: absolute;
-    left: -4px;
+    left: -3px;
     top: 9px;
     width: 7px;
     height: 7px;
     border-radius: 50%;
     background: var(--ouro);
+  }
+
+  @supports (animation-timeline: view()) {
+    .passo::after {
+      animation-name: fio-desce;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+      animation-duration: auto;
+      animation-timeline: --passo;
+      animation-range: entry 40% cover 55%;
+    }
+    .passo::before {
+      animation-name: ponto;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+      animation-duration: auto;
+      animation-timeline: --passo;
+      animation-range: entry 0% entry 40%;
+    }
+  }
+  /* Quando o ponto acende, um anel de ouro abre a partir dele e some: marca
+     "chegamos neste passo". Uma vez por passagem, preso à rolagem, sem loop.
+     Mesma posição do ponto; o ouro aqui é o do fio (regra 3). */
+  .passo__halo {
+    position: absolute;
+    left: -3px;
+    top: 9px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: 1px solid var(--ouro);
+    opacity: 0;
+    pointer-events: none;
+  }
+  @supports (animation-timeline: view()) {
+    .passo__halo {
+      animation-name: halo;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+      animation-duration: auto;
+      animation-timeline: --passo;
+      animation-range: entry 30% entry 90%;
+    }
+  }
+  @keyframes halo {
+    from { opacity: 0.7; scale: 1; animation-timing-function: var(--ease-out); }
+    to { opacity: 0; scale: 3.2; }
+  }
+
+  @keyframes fio-desce { from { transform: scaleY(0); } }
+  @keyframes fio-deita { from { transform: scaleX(0); } }
+  /* Nunca de scale(0): o ponto já existe pequeno e cresce. */
+  @keyframes ponto {
+    from { opacity: 0; transform: scale(0.5); animation-timing-function: var(--ease-out); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .passo::after, .passo::before, .passos::before { animation: none !important; }
+    .passo__halo { display: none; }
   }
 
   .passo__titulo { font-family: var(--disp); font-weight: 400; font-size: var(--t-sub); }
@@ -72,6 +147,7 @@ import { comoFunciona } from '../content/site';
     .passos {
       --fio-gap: var(--s-12);
       position: relative;
+      view-timeline: --passos block;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: var(--fio-gap);
@@ -91,9 +167,35 @@ import { comoFunciona } from '../content/site';
       right: calc((100% - 2 * var(--fio-gap)) / 3);
       height: 1px;
       background: var(--ouro);
+      transform-origin: left;
     }
 
-    .passo { padding: 0; border-left: 0; }
-    .passo::before { left: -3px; top: calc(-1 * var(--s-8) - 3px); }
+    .passo { padding: 0; }
+    .passo::after { content: none; }
+    .passo::before,
+    .passo__halo { left: -3px; top: calc(-1 * var(--s-8) - 3px); }
+
+    /* No desktop o fio deita e corre da esquerda para a direita, ligando os
+       três pontos; as colunas de texto chegam uma depois da outra. */
+    @supports (animation-timeline: view()) {
+      .passos::before {
+        animation-name: fio-deita;
+        animation-fill-mode: both;
+        animation-timing-function: linear;
+        animation-duration: auto;
+        animation-timeline: --passos;
+        animation-range: entry 60% cover 50%;
+      }
+      .passo::before { animation-timeline: --passos; }
+      .passo:nth-child(1)::before { animation-range: entry 40% entry 70%; }
+      .passo:nth-child(2)::before { animation-range: entry 70% cover 40%; }
+      .passo:nth-child(3)::before { animation-range: cover 30% cover 50%; }
+      .passo__halo { animation-timeline: --passos; }
+      .passo:nth-child(1) .passo__halo { animation-range: entry 60% cover 35%; }
+      .passo:nth-child(2) .passo__halo { animation-range: cover 30% cover 50%; }
+      .passo:nth-child(3) .passo__halo { animation-range: cover 45% cover 62%; }
+      .passo:nth-child(2) .revela { animation-range: entry 15% cover 30%; }
+      .passo:nth-child(3) .revela { animation-range: entry 30% cover 35%; }
+    }
   }
 </style>

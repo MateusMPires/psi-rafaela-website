@@ -1,15 +1,18 @@
 ---
 import { ctaFinal } from '../content/site';
 import WhatsAppButton from './WhatsAppButton.astro';
+import Palavras from './Palavras.astro';
 ---
 
 {/* Única seção centralizada da página: aqui não há o que ler em sequência,
     só uma decisão a tomar. */}
 <section class="secao secao--linho final">
   <div class="container coluna final__inner">
-    <h2>{ctaFinal.titulo}</h2>
-    <p class="abertura titulo-corpo">{ctaFinal.texto}</p>
-    <div class="final__acao">
+    {/* O convite final se escreve como o título da dobra, agora preso à rolagem:
+        a página fecha com o mesmo gesto com que abriu. */}
+    <h2><Palavras texto={ctaFinal.titulo} modo="revela" /></h2>
+    <p class="abertura titulo-corpo revela">{ctaFinal.texto}</p>
+    <div class="final__acao revela">
       <WhatsAppButton texto={ctaFinal.cta} centralizado largo />
     </div>
   </div>

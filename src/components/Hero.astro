@@ -2,19 +2,23 @@
 import { hero, profissional } from '../content/site';
 import WhatsAppButton from './WhatsAppButton.astro';
 import IlustracaoDobra from './IlustracaoDobra.astro';
+import Palavras from './Palavras.astro';
 ---
 
 <section class="hero" id="topo">
   <div class="container hero__inner">
     <div class="hero__texto">
-      <h1>{hero.titulo}</h1>
-      <p class="abertura titulo-corpo">{hero.subtitulo}</p>
+      {/* Entrada em cascata, uma vez ao carregar (global.css). A ordem é a da
+          leitura: o título se escreve palavra por palavra, e só quando ele já
+          assentou o resto chega (--atraso), terminando no botão. */}
+      <h1><Palavras texto={hero.titulo} modo="surge" /></h1>
+      <p class="abertura titulo-corpo surge" style="--atraso: 380ms; --ordem: 0">{hero.subtitulo}</p>
 
-      <div class="hero__acao">
+      <div class="hero__acao surge" style="--atraso: 380ms; --ordem: 1">
         <WhatsAppButton texto={hero.cta} largo />
       </div>
 
-      <p class="cred hero__cred">{[profissional.crp, ...hero.etiquetas].join(' · ')}</p>
+      <p class="cred hero__cred surge" style="--atraso: 380ms; --ordem: 2">{[profissional.crp, ...hero.etiquetas].join(' · ')}</p>
     </div>
 
     <div class="hero__ilustracao">
@@ -36,6 +40,37 @@ import IlustracaoDobra from './IlustracaoDobra.astro';
   }
 
   .hero__inner { display: grid; gap: var(--s-10); align-items: center; }
+
+  /* A ilustração tem entrada própria, mais longa e mais macia que a do texto:
+     ela é o fundo da frase, não mais um item da fila. Depois, quando a dobra
+     vai saindo pelo topo, ela sobe um pouco mais devagar e esmaece (uma vez,
+     presa à rolagem, sem loop). As duas usam `scale`/`translate` individuais
+     de propósito: no desktop o <img> já tem `transform` de centralização, e as
+     propriedades individuais se somam a ele em vez de o sobrescrever. */
+  .hero { view-timeline: --dobra block; }
+  .hero__ilustracao {
+    animation: ilustracao 1400ms var(--ease-out) 200ms both;
+  }
+  @keyframes ilustracao {
+    from { opacity: 0; scale: 0.94; filter: blur(8px); }
+  }
+  @supports (animation-timeline: view()) {
+    .hero__ilustracao :global(.ilustracao) {
+      animation-name: deriva;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+      animation-duration: auto;
+      animation-timeline: --dobra;
+      animation-range: exit 0% exit 100%;
+    }
+  }
+  @keyframes deriva {
+    to { translate: 0 -40px; opacity: 0.4; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__ilustracao { animation: surge-fade 400ms ease both; }
+    .hero__ilustracao :global(.ilustracao) { animation: none !important; }
+  }
 
   .hero__acao { margin-top: var(--s-8); }
   .hero__cred { margin-top: var(--s-8); }

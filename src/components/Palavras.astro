@@ -1,0 +1,22 @@
+---
+/**
+ * Quebra um título em palavras para ele se escrever uma a uma (.palavras em
+ * global.css). A quebra acontece no build: o HTML sai com a frase inteira,
+ * cada palavra num <span> e o espaço entre elas como texto normal, então a
+ * leitura, a quebra de linha e o leitor de tela não mudam. O texto continua
+ * vindo de site.ts (regra 1): este componente não tem copy própria.
+ */
+interface Props {
+  texto: string;
+  modo: 'surge' | 'revela';
+}
+
+const { texto, modo } = Astro.props;
+const palavras = texto.split(' ');
+---
+
+<span class={`palavras palavras--${modo}`}>
+  {palavras.map((p, i) => (
+    <>{i > 0 && ' '}<span class="palavra" style={`--i: ${i}`}>{p}</span></>
+  ))}
+</span>

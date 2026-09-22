@@ -7,11 +7,12 @@ const aguardando = faq.aguardando.filter((p) => p.ate_la !== null);
 
 <section class="secao" id="duvidas">
   <div class="container coluna">
-    <h2>{faq.titulo}</h2>
+    <h2 class="revela">{faq.titulo}</h2>
 
+    {/* Cada pergunta entra na sua vez: o escalonamento vem da rolagem. */}
     <div class="faq titulo-corpo">
       {[...faq.itens, ...aguardando.map((p) => p.ate_la!)].map((item) => (
-        <details class="item">
+        <details class="item revela">
           <summary class="item__pergunta">
             <span>{item.pergunta}</span>
             <span class="mais" aria-hidden="true"></span>
@@ -45,15 +46,55 @@ const aguardando = faq.aguardando.filter((p) => p.ate_la !== null);
 
   /* o "+" do wireframe, desenhado em CSS */
   .mais { position: relative; width: 12px; height: 12px; flex: none; }
+  /* Abrir: o "+" gira um quarto de volta e a haste vertical deita sobre a
+     horizontal, virando "−". É o mesmo sinal mudando de estado, não um ícone
+     trocado por outro. */
+  .mais { transition: transform var(--dur-ui) var(--ease-out); }
   .mais::before, .mais::after {
     content: '';
     position: absolute;
     background: var(--ouro);
-    transition: transform 160ms ease, opacity 160ms ease;
   }
   .mais::before { left: 0; top: 5.5px; width: 12px; height: 1px; }
-  .mais::after { top: 0; left: 5.5px; width: 1px; height: 12px; }
-  .item[open] .mais::after { transform: scaleY(0); opacity: 0; }
+  .mais::after {
+    top: 0; left: 5.5px; width: 1px; height: 12px;
+    transition: transform var(--dur-ui) var(--ease-out);
+  }
+  .item[open] .mais { transform: rotate(90deg); }
+  .item[open] .mais::after { transform: scaleY(0.08); }
 
   .item__resposta { padding-bottom: var(--s-6); color: var(--tinta-fraca); }
+
+  /* A altura acompanha a abertura onde o navegador sabe animar até `auto`
+     (Chromium; ::details-content também no Safari 18.4+). Nos outros o
+     <details> abre seco como antes, e a resposta ainda assenta com o fade. */
+  @supports (interpolate-size: allow-keywords) {
+    .item { interpolate-size: allow-keywords; }
+    .item::details-content {
+      height: 0;
+      overflow: clip;
+      transition:
+        height var(--dur-ui) var(--ease-out),
+        content-visibility var(--dur-ui) allow-discrete;
+    }
+    .item[open]::details-content { height: auto; }
+  }
+
+  /* A resposta entra alguns pixels acima e desce ao lugar: vem da pergunta. */
+  .item[open] .item__resposta { animation: resposta 260ms var(--ease-out) both; }
+  @keyframes resposta {
+    from { opacity: 0; transform: translateY(-4px); }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .item__pergunta { transition: color 150ms ease; }
+    .item__pergunta:hover { color: var(--ouro-tinta); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mais, .mais::after { transition: none; }
+    .item::details-content { transition: none; }
+    .item[open] .item__resposta { animation-name: resposta-fade; animation-duration: 200ms; }
+  }
+  @keyframes resposta-fade { from { opacity: 0; } }
 </style>

@@ -37,6 +37,27 @@ import Icone from './Icone.astro';
     backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--fio);
   }
+
+  /* Ao rolar, o header ganha uma sombra macia nos primeiros 80px: sinaliza que
+     há conteúdo passando por baixo. O fio fica sempre (ver acima); só a sombra
+     é presa à rolagem, e só em opacidade. Sem suporte, fica sem sombra. */
+  @supports (animation-timeline: scroll()) {
+    .nav::after {
+      content: '';
+      position: absolute;
+      inset: auto 0 -1px;
+      height: 1px;
+      box-shadow: 0 6px 16px -4px rgb(35 42 49 / 0.14);
+      pointer-events: none;
+      animation-name: sombra-nav;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+      animation-duration: auto;
+      animation-timeline: scroll(root);
+      animation-range: 0px 80px;
+    }
+  }
+  @keyframes sombra-nav { from { opacity: 0; } }
   .nav__inner {
     display: flex;
     align-items: center;
@@ -62,9 +83,14 @@ import Icone from './Icone.astro';
   .nav__links a {
     display: inline-flex; align-items: center; min-height: 44px;
     font-family: var(--sans); font-size: var(--t-apoio); color: var(--tinta-fraca);
-    text-decoration: none;
+    /* O sublinhado já existe, transparente, e só ganha cor: aparece em fade em
+       vez de piscar. */
+    text-decoration: underline;
+    text-decoration-color: transparent;
   }
-  .nav__links a:hover { color: var(--tinta); text-decoration: underline; }
+  @media (hover: hover) and (pointer: fine) {
+    .nav__links a:hover { color: var(--tinta); text-decoration-color: currentColor; }
+  }
 
   /* Pill 20% menor que o botão de corpo em todas as medidas (altura, padding,
      rótulo, glifo e raio) — pedido do Mateus (09/09/2026). O alvo de toque NÃO

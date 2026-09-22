@@ -35,7 +35,17 @@ h3 { font-size: var(--t-sub); line-height: var(--lh-sub); font-family: var(--ser
 p { margin: 0; max-width: var(--medida); text-wrap: pretty; }
 p + p { margin-top: var(--s-4); }
 
-a { color: var(--ouro-tinta); text-underline-offset: 4px; text-decoration-thickness: 1px; }
+a {
+  color: var(--ouro-tinta);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  transition: color 150ms ease, text-decoration-color 150ms ease;
+}
+
+/* O header é sticky: sem isto, a âncora do nav joga o título da seção para
+   baixo da barra. 60/72px de barra + um respiro. */
+section[id] { scroll-margin-top: 76px; }
+@media (min-width: 900px) { section[id] { scroll-margin-top: 92px; } }
 
 /* Foco de teclado visível em ouro, 2px — regra do design system.
    Usa --ouro-tinta e não --ouro: o ouro da marca dá 2,4:1 sobre papel e reprova
@@ -121,10 +131,16 @@ a { color: var(--ouro-tinta); text-underline-offset: 4px; text-decoration-thickn
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  transition: filter 120ms ease;
+  /* Pressão responde no toque, não na soltura: afunda 3% e volta. Sem bounce,
+     sem pulso, sem brilho chamando atenção: a regra 5 veta pressão. */
+  transition: transform var(--dur-toque) var(--ease-out), filter 150ms ease;
+  -webkit-tap-highlight-color: transparent;
 }
-.botao:hover { filter: brightness(1.06); }
-.botao:active { filter: brightness(0.96); }
+.botao:active { transform: scale(0.97); filter: brightness(0.96); }
+/* Hover só onde existe ponteiro de verdade: no toque ele "gruda" depois do tap. */
+@media (hover: hover) and (pointer: fine) {
+  .botao:hover { filter: brightness(1.06); }
+}
 
 /* No botão cheio o anel de ouro cairia ouro-sobre-ouro; a tinta separa melhor. */
 .botao:focus-visible { outline-color: var(--tinta); }
@@ -134,7 +150,10 @@ a { color: var(--ouro-tinta); text-underline-offset: 4px; text-decoration-thickn
   color: var(--tinta);
   border: 1px solid var(--tinta-fraca);
 }
-.botao--vazado:hover { filter: none; border-color: var(--tinta); }
+.botao--vazado { transition: transform var(--dur-toque) var(--ease-out), border-color 150ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .botao--vazado:hover { filter: none; border-color: var(--tinta); }
+}
 
 .botao--largo { width: 100%; }
 @media (min-width: 560px) { .botao--largo { width: auto; } }
@@ -158,11 +177,102 @@ a.sr-only:focus-visible {
   font-family: var(--sans); font-size: var(--t-ui); text-decoration: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+/* ---------- movimento ----------
+   Três camadas, todas em CSS puro (a página não tem JS):
+
+   .surge    — entrada da dobra, uma vez por visita, ao carregar. Cada filho
+               recebe --ordem (0, 1, 2…) e entra 90ms depois do anterior, a partir
+               de --atraso. Nada fica bloqueado enquanto isso: o botão é clicável
+               desde o primeiro frame.
+
+   .palavras — um título que se escreve palavra por palavra (Palavras.astro).
+               `--surge` roda no relógio, ao carregar (dobra); `--revela` roda
+               presa à rolagem (CTA final).
+
+   .revela   — o resto da página, preso à rolagem (animation-timeline: view()).
+               Anima só na ENTRADA do elemento pela borda de baixo; depois de
+               visível, fica. Navegador sem suporte (Firefox hoje) mostra tudo
+               parado, e sem JS a página é a mesma: nada começa invisível fora
+               do @supports.
+
+   Movimento expressivo liberado pelo Mateus em 22/09/2026 (a rodada de
+   21/09 ficou "seca"). O que continua fora é o que pressiona o clique: loop,
+   pulso, brilho, contador. */
+
+.surge {
+  animation: surge var(--dur-entrada) var(--ease-out) both;
+  animation-delay: calc(var(--atraso, 0ms) + var(--ordem, 0) * 90ms);
+}
+@keyframes surge {
+  from { opacity: 0; transform: translateY(12px); filter: blur(4px); }
+}
+
+/* inline-block para o translate valer; o espaço entre palavras é texto real
+   fora dos spans, então a quebra de linha e o leitor de tela não mudam. */
+.palavra { display: inline-block; }
+
+.palavras--surge .palavra {
+  animation: palavra 900ms var(--ease-out) both;
+  animation-delay: calc(var(--i) * 45ms);
+}
+@keyframes palavra {
+  from { opacity: 0; translate: 0 0.35em; filter: blur(6px); }
+}
+
+@supports (animation-timeline: view()) {
+  .palavras--revela { display: block; view-timeline: --palavras block; }
+  .palavras--revela .palavra {
+    animation-name: palavra-rolagem;
+    animation-fill-mode: both;
+    animation-timing-function: linear;
+    animation-duration: auto;
+    animation-timeline: --palavras;
+    animation-range: entry calc(10% + var(--i) * 6%) entry calc(70% + var(--i) * 6%);
   }
 }
+@keyframes palavra-rolagem {
+  from {
+    opacity: 0; translate: 0 0.35em; filter: blur(6px);
+    animation-timing-function: var(--ease-out);
+  }
+}
+
+/* Em longhands de propósito: se o minificador vê o atalho `animation` junto de
+   `animation-timeline`, ele funde tudo em `animation: … view()`, que o Chrome
+   descarta inteiro (a timeline não entra no atalho). Vale para todo
+   movimento preso à rolagem na página. */
+@supports (animation-timeline: view()) {
+  .revela {
+    animation-name: revela;
+    animation-fill-mode: both;
+    animation-timing-function: linear;
+    animation-duration: auto;
+    animation-timeline: view();
+    /* Começa ao entrar e termina a 25% do trajeto pela tela. A medida é a
+       altura da tela, não a do elemento: com `entry` sozinho, uma pergunta de
+       57px se revelava em 50px de rolagem e lia como piscada. */
+    animation-range: entry 0% cover 25%;
+  }
+}
+/* Curva dentro do keyframe: o progresso é a rolagem (linear), mas o movimento
+   assenta cedo, então o texto já está legível antes de chegar ao meio da tela.
+   O desfoque é leve de propósito: 3px já desfaz a borda da letra sem custar
+   quadro no celular. Se um dia travar num iPhone, é ele que sai primeiro. */
+@keyframes revela {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(3px);
+    animation-timing-function: var(--ease-out);
+  }
+}
+
+/* Movimento reduzido não é movimento zero: os fades ficam (ajudam a ler a
+   mudança), deslocamento, desfoque e escala saem. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .surge, .palavras--surge .palavra { animation-name: surge-fade; animation-duration: 400ms; }
+  .revela, .palavras--revela .palavra { animation-name: surge-fade !important; }
+  .botao:active { transform: none; }
+}
+@keyframes surge-fade { from { opacity: 0; } }

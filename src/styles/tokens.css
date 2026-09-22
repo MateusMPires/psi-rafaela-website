@@ -49,6 +49,14 @@
      antes de mudar de novo. */
   --raio-botao: 14px;
   --raio-painel: 6px;
+
+  /* — movimento — curvas das skills do Emil Kowalski, não inventadas. Ease-in não
+     existe aqui de propósito: começa devagar justo quando o olho está olhando. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);      /* entrar, responder ao toque */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);  /* algo que já está na tela se mover */
+  --dur-toque: 160ms;    /* feedback de pressão */
+  --dur-ui: 240ms;       /* abrir/fechar no FAQ */
+  --dur-entrada: 800ms;  /* entrada da dobra, uma vez por visita */
 }
 
 @media (min-width: 900px) {
