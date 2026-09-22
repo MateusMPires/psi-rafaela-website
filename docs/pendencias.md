@@ -73,6 +73,8 @@ dentro do site não é (seção 9 do documento).
 ## Decisões de negócio
 
 **11. E-book: data de lançamento, se é gratuito, e se tem arte de capa**
+**Fora da página desde 21/09/2026** (Mateus): enquanto não houver backend, `<Ebook />` não é
+renderizado em `src/pages/index.astro`. Componente e copy seguem prontos; voltar é recolocar a linha.
 A seção existe e o formulário funciona na interface — valida o e-mail, mostra erro e sucesso.
 O que falta é o backend: hoje o envio cai numa função stub que só registra no console.
 Quando houver decisão, trocar **uma função** (`enviar`, em `src/components/Ebook.astro`) por
